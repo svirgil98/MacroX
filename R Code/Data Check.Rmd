@@ -1,0 +1,56 @@
+#Import Libraries
+```{r}
+library(mgcv)
+library(lubridate)
+library(dplyr)
+```
+
+#Read Data
+```{r}
+df <- read.csv("api_data_IN_Agra_raw.csv", head = TRUE)
+```
+
+#Check for Missing Data
+```{r}
+colSums(is.na(df))
+```
+
+#Check for Outliers
+```{r}
+boxplot(df$CO)
+boxplot(df$NO2)
+boxplot(df$SO2)
+boxplot(df$PM2_5)
+```
+
+#Create Time Series for Each Variable
+```{r}
+df$date <- as.Date(df$Date, format='%Y-%m-%d')
+df_CO <- data.frame(df$Date, df$CO)
+df_NO2 <- data.frame(df$Date, df$NO2)
+df_SO2 <- data.frame(df$Date, df$SO2)
+df_PM2_5 <- data.frame(df$Date, df$PM2_5)
+
+ts.CO <- ts(df_CO$df.CO, start = 2020, end=2023, freq=365)
+ts.NO2 <- ts(df_NO2$df.NO2, start = 2020, end=2023, freq=365)
+ts.SO2 <- ts(df_SO2$df.SO2, start = 2020, end=2023, freq=365)
+ts.PM2_5 <- ts(df_PM2_5$df.PM2_5, start = 2020, end=2023, freq=365)
+```
+
+#Plot the Time Series
+```{r}
+ts.plot(ts.CO, ylab = 'CO')
+ts.plot(ts.NO2, ylab = 'NO2')
+ts.plot(ts.SO2, ylab = 'SO2')
+ts.plot(ts.PM2_5, ylab = 'PM2_5')
+
+```
+
+#ACF Plots
+```{r}
+acf(ts.CO,lag.max=80)
+acf(ts.NO2,lag.max=80)
+acf(ts.SO2,lag.max=80)
+acf(ts.PM2_5,lag.max=80)
+```
+

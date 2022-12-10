@@ -1,0 +1,897 @@
+#rm(list=ls())
+```{r}
+#Load Open Weather Data
+Agartala <- read.csv('api_data_IN_Agartala_raw.csv', head = TRUE)
+Agra <- read.csv('api_data_IN_Agra_raw.csv', head = TRUE)
+Aizwal <- read.csv('api_data_IN_Aizwal_raw.csv', head = TRUE)
+Amritsar <- read.csv('api_data_IN_Amritsar_raw.csv', head = TRUE)
+Asansol <- read.csv('api_data_IN_Asansol_raw.csv', head = TRUE)
+Aurangabad <- read.csv('api_data_IN_Aurangabad_raw.csv', head = TRUE)
+Bareilly <- read.csv('api_data_IN_Bareilly_raw.csv', head = TRUE)
+Belgaum <- read.csv('api_data_IN_Belgaum_raw.csv', head = TRUE)
+Bengaluru <- read.csv('api_data_IN_Bengaluru_raw.csv', head = TRUE)
+Bhilai <- read.csv('api_data_IN_Bhilai_raw.csv', head = TRUE)
+Bhopal <- read.csv('api_data_IN_Bhopal_raw.csv', head = TRUE)
+Chandigarh<- read.csv('api_data_IN_Chandigarh_raw.csv', head = TRUE)
+Chennai <- read.csv('api_data_IN_Chennai_raw.csv', head = TRUE)
+Coimbatore <- read.csv('api_data_IN_Coimbatore_raw.csv', head = TRUE)
+Dehradun <- read.csv('api_data_IN_Dehradun_raw.csv', head = TRUE)
+Delhi <- read.csv('api_data_IN_Delhi_raw.csv', head = TRUE)
+Faridabad <- read.csv('api_data_IN_Faridabad_raw.csv', head = TRUE)
+Gandhinagar<- read.csv('api_data_IN_Gandhinagar_raw.csv', head = TRUE)
+Gangtok <- read.csv('api_data_IN_Gangtok_raw.csv', head = TRUE)
+Ghaziabad <- read.csv('api_data_IN_Ghaziabad_raw.csv', head = TRUE)
+Gorakhpur <- read.csv('api_data_IN_Gorakhpur_raw.csv', head = TRUE)
+Gwalior <- read.csv('api_data_IN_Gwalior_raw.csv', head = TRUE)
+Hyderabad <- read.csv('api_data_IN_Hyderabad_raw.csv', head = TRUE)
+Imphal <- read.csv('api_data_IN_Imphal_raw.csv', head = TRUE)
+Indore<- read.csv('api_data_IN_Indore_raw.csv', head = TRUE)
+Jabalpur <- read.csv('api_data_IN_Jabalpur_raw.csv', head = TRUE)
+Jaipur <- read.csv('api_data_IN_Jaipur_raw.csv', head = TRUE)
+Jalandhar <- read.csv('api_data_IN_Jalandhar_raw.csv', head = TRUE)
+Jodhpur<- read.csv('api_data_IN_Jodhpur_raw.csv', head = TRUE)
+Kanpur <- read.csv('api_data_IN_Kanpur_raw.csv', head = TRUE)
+Kochi <- read.csv('api_data_IN_Kochi_raw.csv', head = TRUE)
+Kohima<- read.csv('api_data_IN_Kohima_raw.csv', head = TRUE)
+Kolkata <- read.csv('api_data_IN_Kolkata_raw.csv', head = TRUE)
+Kota <- read.csv('api_data_IN_Kota_raw.csv', head = TRUE)
+Kozhikode <- read.csv('api_data_IN_Kozhikode_raw.csv', head = TRUE)
+Lucknow <- read.csv('api_data_IN_Lucknow_raw.csv', head = TRUE)
+Ludhiana <- read.csv('api_data_IN_Ludhiana_raw.csv', head = TRUE)
+Mangalore <- read.csv('api_data_IN_Mangalore_raw.csv', head = TRUE)
+Meerut <- read.csv('api_data_IN_Meerut_raw.csv', head = TRUE)
+Moradabad <- read.csv('api_data_IN_Moradabad_raw.csv', head = TRUE)
+Mumbai <- read.csv('api_data_IN_Mumbai_raw.csv', head = TRUE)
+Mysuru <- read.csv('api_data_IN_Mysuru_raw.csv', head = TRUE)
+Nashik <- read.csv('api_data_IN_Nashik_raw.csv', head = TRUE)
+Patna <- read.csv('api_data_IN_Patna_raw.csv', head = TRUE)
+Prayagraj <- read.csv('api_data_IN_Prayagraj_raw.csv', head = TRUE)
+Puducherry <- read.csv('api_data_IN_Puducherry_raw.csv', head = TRUE)
+Pune<- read.csv('api_data_IN_Pune_raw.csv', head = TRUE)
+Shillong <- read.csv('api_data_IN_Shillong_raw.csv', head = TRUE)
+Solapur <- read.csv('api_data_IN_Solapur_raw.csv', head = TRUE)
+Srinagar <- read.csv('api_data_IN_Srinagar_raw.csv', head = TRUE)
+Thiruvananthapuram <- read.csv('api_data_IN_Thiruvananthapuram_raw.csv', head = TRUE)
+Varanasi <- read.csv('api_data_IN_Varanasi_raw.csv', head = TRUE)
+Vijaywada <- read.csv('api_data_IN_Vijaywada_raw.csv', head = TRUE)
+Visakhapatnam <- read.csv('api_data_IN_Visakhapatnam_raw.csv', head = TRUE)
+```
+
+```{r}
+#Load Unemployment Data
+Agartala_unemp <- read.csv('unemployment_IN_Agartala.csv', head = TRUE)
+Agra_unemp <- read.csv('unemployment_IN_Agra.csv', head = TRUE)
+Aizwal_unemp <- read.csv('unemployment_IN_Aizwal.csv', head = TRUE)
+Amritsar_unemp <- read.csv('unemployment_IN_Amritsar.csv', head = TRUE)
+Asansol_unemp <- read.csv('unemployment_IN_Asansol.csv', head = TRUE)
+Aurangabad_unemp <- read.csv('unemployment_IN_Aurangabad.csv', head = TRUE)
+Bareilly_unemp <- read.csv('unemployment_IN_Bareilly.csv', head = TRUE)
+Belgaum_unemp <- read.csv('unemployment_IN_Belgaum.csv', head = TRUE)
+Bengaluru_unemp <- read.csv('unemployment_IN_Bengaluru.csv', head = TRUE)
+Bhilai_unemp <- read.csv('unemployment_IN_Bhilai.csv', head = TRUE)
+Bhopal_unemp <- read.csv('unemployment_IN_Bhopal.csv', head = TRUE)
+Chandigarh_unemp<- read.csv('unemployment_IN_Chandigarh.csv', head = TRUE)
+Chennai_unemp <- read.csv('unemployment_IN_Chennai.csv', head = TRUE)
+Coimbatore_unemp <- read.csv('unemployment_IN_Coimbatore.csv', head = TRUE)
+Dehradun_unemp <- read.csv('unemployment_IN_Dehradun.csv', head = TRUE)
+Delhi_unemp <- read.csv('unemployment_IN_Delhi.csv', head = TRUE)
+Faridabad_unemp <- read.csv('unemployment_IN_Faridabad.csv', head = TRUE)
+Gandhinagar_unemp<- read.csv('unemployment_IN_Gandhinagar.csv', head = TRUE)
+Gangtok_unemp <- read.csv('unemployment_IN_Gangtok.csv', head = TRUE)
+Ghaziabad_unemp <- read.csv('unemployment_IN_Ghaziabad.csv', head = TRUE)
+Gorakhpur_unemp <- read.csv('unemployment_IN_Gorakhpur.csv', head = TRUE)
+Gwalior_unemp <- read.csv('unemployment_IN_Gwalior.csv', head = TRUE)
+Hyderabad_unemp <- read.csv('unemployment_IN_Hyderabad.csv', head = TRUE)
+Imphal_unemp <- read.csv('unemployment_IN_Imphal.csv', head = TRUE)
+Indore_unemp<- read.csv('unemployment_IN_Indore.csv', head = TRUE)
+Jabalpur_unemp <- read.csv('unemployment_IN_Jabalpur.csv', head = TRUE)
+Jaipur_unemp <- read.csv('unemployment_IN_Jaipur.csv', head = TRUE)
+Jalandhar_unemp <- read.csv('unemployment_IN_Jalandhar.csv', head = TRUE)
+Jodhpur_unemp<- read.csv('unemployment_IN_Jodhpur.csv', head = TRUE)
+Kanpur_unemp <- read.csv('unemployment_IN_Kanpur.csv', head = TRUE)
+Kochi_unemp <- read.csv('unemployment_IN_Kochi.csv', head = TRUE)
+Kohima_unemp<- read.csv('unemployment_IN_Kohima.csv', head = TRUE)
+Kolkata_unemp <- read.csv('unemployment_IN_Kolkata.csv', head = TRUE)
+Kota_unemp <- read.csv('unemployment_IN_Kota.csv', head = TRUE)
+Kozhikode_unemp <- read.csv('unemployment_IN_Kozhikode.csv', head = TRUE)
+Lucknow_unemp <- read.csv('unemployment_IN_Lucknow.csv', head = TRUE)
+Ludhiana_unemp <- read.csv('unemployment_IN_Ludhiana.csv', head = TRUE)
+Mangalore_unemp <- read.csv('unemployment_IN_Mangalore.csv', head = TRUE)
+Meerut_unemp <- read.csv('unemployment_IN_Meerut.csv', head = TRUE)
+Moradabad_unemp <- read.csv('unemployment_IN_Moradabad.csv', head = TRUE)
+Mumbai_unemp <- read.csv('unemployment_IN_Mumbai.csv', head = TRUE)
+Mysuru_unemp <- read.csv('unemployment_IN_Mysuru.csv', head = TRUE)
+Nashik_unemp <- read.csv('unemployment_IN_Nashik.csv', head = TRUE)
+Patna_unemp <- read.csv('unemployment_IN_Patna.csv', head = TRUE)
+Prayagraj_unemp <- read.csv('unemployment_IN_Prayagraj.csv', head = TRUE)
+Puducherry_unemp <- read.csv('unemployment_IN_Puducherry.csv', head = TRUE)
+Pune_unemp<- read.csv('unemployment_IN_Pune.csv', head = TRUE)
+Shillong_unemp <- read.csv('unemployment_IN_Shillong.csv', head = TRUE)
+Solapur_unemp <- read.csv('unemployment_IN_Solapur.csv', head = TRUE)
+Srinagar_unemp <- read.csv('unemployment_IN_Srinagar.csv', head = TRUE)
+Thiruvananthapuram_unemp <- read.csv('unemployment_IN_Thiruvananthapuram.csv', head = TRUE)
+Varanasi_unemp <- read.csv('unemployment_IN_Varanasi.csv', head = TRUE)
+Vijaywada_unemp <- read.csv('unemployment_IN_Vijayawada.csv', head = TRUE)
+Visakhapatnam_unemp <- read.csv('unemployment_IN_Visakhapatnam.csv', head = TRUE)
+df <- read.csv('cluster.csv', head = TRUE)
+```
+
+#Create df based on climate cluster
+```{r}
+sav <- df[df$Cluster.Name == 'Savannah',]
+desert <- df[df$Cluster.Name == 'Desert',] 
+subtrop <- df[df$Cluster.Name == 'Subtropical',] 
+med <- df[df$Cluster.Name == 'Mediterran',] 
+highland <- df[df$Cluster.Name == 'Oceanic Subtropical Highland',] 
+monsoon <- df[df$Cluster.Name == 'Monsoon',] 
+
+```
+
+```{r}
+#Savannah
+sav_city <- sav$City
+df_sav <- rbind(Agartala,Asansol,Belgaum,Bengaluru,Bhilai,Chennai,Coimbatore,Hyderabad,Indore,Kolkata,Mangalore,Mumbai,Mysuru,Nashik,Prayagraj,Puducherry,Pune,Vijaywada,Visakhapatnam)
+
+#Desert
+desert_city <- desert$City
+df_desert <- rbind(Agra,Aurangabad,Faridabad,Gandhinagar,Jaipur,Jodhpur,Kota,Solapur)
+
+#Subtropical
+subtrop_city <- subtrop$City
+df_subtrop <- rbind(Aizwal,Amritsar,Bareilly,Chandigarh,Dehradun,Delhi,Ghaziabad,Gorakhpur,Imphal,Jalandhar,Ludhiana,Meerut,Moradabad,Patna,Shillong,Srinagar,Varanasi)
+
+#Mediterran
+med_city <- med$City
+df_med <- rbind(Bhopal,Gwalior,Jabalpur,Kanpur,Lucknow)
+
+#Oceanic Highland
+highland_city <- highland$City
+df_highland <- rbind(Gangtok,Kohima)
+
+#Monsoon
+monsoon_city <- monsoon$City
+df_monsoon <- rbind(Kochi, Kozhikode, Thiruvananthapuram)
+```
+#Aggregate city clusters by day
+```{r}
+#Savannah
+df_sav$Date <- strptime(as.character(df_sav$Date), "%Y-%m-%d")
+df_sav$Date <- format(df_sav$Date, "%Y-%m-%d")
+df_sav <- df_sav[,-1:-4]
+df_sav <- aggregate(x = cbind(df_sav$CO, df_sav$NO2, df_sav$SO2, df_sav$PM2_5), by = list(df_sav$Date), FUN = mean)
+colnames(df_sav) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Desert
+df_desert$Date <- strptime(as.character(df_desert$Date), "%Y-%m-%d")
+df_desert$Date <- format(df_desert$Date, "%Y-%m-%d")
+df_desert <- df_desert[,-1:-4]
+df_desert <- aggregate(x = cbind(df_desert$CO, df_desert$NO2, df_desert$SO2, df_desert$PM2_5), by = list(df_desert$Date), FUN = mean)
+colnames(df_desert) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Subtropic
+df_subtrop$Date <- strptime(as.character(df_subtrop$Date), "%Y-%m-%d")
+df_subtrop$Date <- format(df_subtrop$Date, "%Y-%m-%d")
+df_subtrop <- df_subtrop[,-1:-4]
+df_subtrop <- aggregate(x = cbind(df_subtrop$CO, df_subtrop$NO2, df_subtrop$SO2, df_subtrop$PM2_5), by = list(df_subtrop$Date), FUN = mean)
+colnames(df_subtrop) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Oceanic Highland
+df_highland$Date <- strptime(as.character(df_highland$Date), "%Y-%m-%d")
+df_highland$Date <- format(df_highland$Date, "%Y-%m-%d")
+df_highland <- df_highland[,-1:-4]
+df_highland <- aggregate(x = cbind(df_highland$CO, df_highland$NO2, df_highland$SO2, df_highland$PM2_5), by = list(df_highland$Date), FUN = mean)
+colnames(df_highland) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Mediterran
+df_med$Date <- strptime(as.character(df_med$Date), "%Y-%m-%d")
+df_med$Date <- format(df_med$Date, "%Y-%m-%d")
+df_med <- df_med[,-1:-4]
+df_med <- aggregate(x = cbind(df_med$CO, df_med$NO2, df_med$SO2, df_med$PM2_5), by = list(df_med$Date), FUN = mean)
+colnames(df_med) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Monsoon
+df_monsoon$Date <- strptime(as.character(df_monsoon$Date), "%Y-%m-%d")
+df_monsoon$Date <- format(df_monsoon$Date, "%Y-%m-%d")
+df_monsoon <- df_monsoon[,-1:-4]
+df_monsoon <- aggregate(x = cbind(df_monsoon$CO, df_monsoon$NO2, df_monsoon$SO2, df_monsoon$PM2_5), by = list(df_monsoon$Date), FUN = mean)
+colnames(df_monsoon) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+```
+
+#Prep Unemployment Data
+#Combine Unemployment Data for Each Group
+```{r}
+#Savannah
+sav_unemp <- rbind(Agartala_unemp,Asansol_unemp,Belgaum_unemp,Bengaluru_unemp,Bhilai_unemp,Chennai_unemp,Coimbatore_unemp,Hyderabad_unemp,Indore_unemp,Kolkata_unemp,Mangalore_unemp,Mumbai_unemp,Mysuru_unemp,Nashik_unemp,Prayagraj_unemp,Puducherry_unemp,Pune_unemp,Vijaywada_unemp,Visakhapatnam_unemp)
+
+#Desert
+desert_unemp <- rbind(Agra_unemp,Aurangabad_unemp,Faridabad_unemp,Gandhinagar_unemp,Jaipur_unemp,Jodhpur_unemp,Kota_unemp,Solapur_unemp)
+
+#Subtropical
+subtrop_unemp <- rbind(Aizwal_unemp,Amritsar_unemp,Bareilly_unemp,Chandigarh_unemp,Dehradun_unemp,Delhi_unemp,Ghaziabad_unemp,Gorakhpur_unemp,Imphal_unemp,Jalandhar_unemp,Ludhiana_unemp,Meerut_unemp,Moradabad_unemp,Patna_unemp,Shillong_unemp,Srinagar_unemp,Varanasi_unemp)
+
+#Mediterran
+med_unemp <- rbind(Bhopal_unemp,Gwalior_unemp,Jabalpur_unemp,Kanpur_unemp,Lucknow_unemp)
+
+#Oceanic Highland
+highland_unemp <- rbind(Gangtok_unemp,Kohima_unemp)
+
+#Monsoon
+monsoon_unemp <- rbind(Kochi_unemp, Kozhikode_unemp, Thiruvananthapuram_unemp)
+```
+
+
+#Aggregate Data
+#Savannah
+```{r}
+sav_unemp <- sav_unemp[,-1]
+sav_unemp <- sav_unemp[,-2]
+sav_unemp <- sav_unemp[,-3:-4]
+colnames(sav_unemp) <- c("Date", "Unemployment_Rate")
+
+sav_unemp <- aggregate(x= sav_unemp$Unemployment_Rate, by = list(sav_unemp$Date), FUN=mean)
+colnames(sav_unemp) <- c("Date", "Unemployment_Rate")
+
+sav_unemp$month <- strptime(as.character(sav_unemp$Date), "%m-%d-%y")
+sav_unemp$month <-  format(sav_unemp$month, "%Y-%m")
+sav_unemp <- sav_unemp[,-1]
+
+sav_unemp <- sav_unemp[order(sav_unemp$month),]
+
+row.names(sav_unemp) <- NULL
+
+
+```
+
+#Desert
+```{r}
+desert_unemp <- desert_unemp[,-1]
+desert_unemp <- desert_unemp[,-2]
+desert_unemp <- desert_unemp[,-3:-4]
+colnames(desert_unemp) <- c("Date", "Unemployment_Rate")
+
+desert_unemp <- aggregate(x= desert_unemp$Unemployment_Rate, by = list(desert_unemp$Date), FUN=mean)
+colnames(desert_unemp) <- c("Date", "Unemployment_Rate")
+
+desert_unemp$month <- strptime(as.character(desert_unemp$Date), "%m-%d-%y")
+desert_unemp$month <-  format(desert_unemp$month, "%Y-%m")
+desert_unemp <- desert_unemp[,-1]
+
+desert_unemp <- desert_unemp[order(desert_unemp$month),]
+row.names(desert_unemp) <- NULL
+
+```
+
+#Subtropical
+```{r}
+subtrop_unemp <- subtrop_unemp[,-1]
+subtrop_unemp <- subtrop_unemp[,-2]
+subtrop_unemp <- subtrop_unemp[,-3:-4]
+colnames(subtrop_unemp) <- c("Date", "Unemployment_Rate")
+
+subtrop_unemp <- aggregate(x= subtrop_unemp$Unemployment_Rate, by = list(subtrop_unemp$Date), FUN=mean)
+colnames(subtrop_unemp) <- c("Date", "Unemployment_Rate")
+
+subtrop_unemp$month <- strptime(as.character(subtrop_unemp$Date), "%m-%d-%y")
+subtrop_unemp$month <-  format(subtrop_unemp$month, "%Y-%m")
+subtrop_unemp <- subtrop_unemp[,-1]
+
+subtrop_unemp <- subtrop_unemp[order(subtrop_unemp$month),]
+row.names(subtrop_unemp) <- NULL
+
+```
+
+#Mediterran
+```{r}
+med_unemp <- med_unemp[,-1]
+med_unemp <- med_unemp[,-2]
+med_unemp <- med_unemp[,-3:-4]
+colnames(med_unemp) <- c("Date", "Unemployment_Rate")
+
+med_unemp <- aggregate(x= med_unemp$Unemployment_Rate, by = list(med_unemp$Date), FUN=mean)
+colnames(med_unemp) <- c("Date", "Unemployment_Rate")
+
+med_unemp$month <- strptime(as.character(med_unemp$Date), "%m-%d-%y")
+med_unemp$month <-  format(med_unemp$month, "%Y-%m")
+med_unemp <- med_unemp[,-1]
+
+med_unemp <- med_unemp[order(med_unemp$month),]
+row.names(med_unemp) <- NULL
+
+```
+
+#Oceanic Highland
+```{r}
+highland_unemp <- highland_unemp[,-1]
+highland_unemp <- highland_unemp[,-2]
+highland_unemp <- highland_unemp[,-3:-4]
+colnames(highland_unemp) <- c("Date", "Unemployment_Rate")
+
+highland_unemp <- aggregate(x= highland_unemp$Unemployment_Rate, by = list(highland_unemp$Date), FUN=mean)
+colnames(highland_unemp) <- c("Date", "Unemployment_Rate")
+
+highland_unemp$month <- strptime(as.character(highland_unemp$Date), "%m-%d-%y")
+highland_unemp$month <-  format(highland_unemp$month, "%Y-%m")
+highland_unemp <- highland_unemp[,-1]
+
+highland_unemp <- highland_unemp[order(highland_unemp$month),]
+row.names(highland_unemp) <- NULL
+
+```
+
+#Monsoon
+```{r}
+monsoon_unemp <- monsoon_unemp[,-1]
+monsoon_unemp <- monsoon_unemp[,-2]
+monsoon_unemp<- monsoon_unemp[,-3:-4]
+colnames(monsoon_unemp) <- c("Date", "Unemployment_Rate")
+
+monsoon_unemp <- aggregate(x= monsoon_unemp$Unemployment_Rate, by = list(monsoon_unemp$Date), FUN=mean)
+colnames(monsoon_unemp) <- c("Date", "Unemployment_Rate")
+
+monsoon_unemp$month <- strptime(as.character(monsoon_unemp$Date), "%m-%d-%y")
+monsoon_unemp$month <-  format(monsoon_unemp$month, "%Y-%m")
+monsoon_unemp <- monsoon_unemp[,-1]
+
+monsoon_unemp<- monsoon_unemp[order(monsoon_unemp$month),]
+row.names(monsoon_unemp) <- NULL
+
+```
+
+#Align Dates between Open Weather and Unemployment Data
+```{r}
+sav_unemp <- sav_unemp[-1:-58,]
+desert_unemp <- desert_unemp[-1:-58,]
+subtrop_unemp <- subtrop_unemp[-1:-58,]
+med_unemp <- med_unemp[-1:-58,]
+highland_unemp <- highland_unemp[-1:-58,]
+monsoon_unemp <- monsoon_unemp[-1:-58,]
+```
+
+#Aggregate Open Weather data by month to match Unemployment Data
+```{r}
+#Get monthly date Savannah
+df_sav$Date <-  strptime(as.character(df_sav$DATE), "%Y-%m-%d")
+df_sav$month <-  format(df_sav$Date, "%Y-%m")
+df_sav <- df_sav[,-1]
+
+#Aggregate by month Savannah
+df_sav <- aggregate(x = cbind(df_sav$CO, df_sav$NO2, df_sav$SO2, df_sav$PM2_5), by = list(df_sav$month), FUN = mean)
+colnames(df_sav) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Desert
+df_desert$Date <-  strptime(as.character(df_desert$DATE), "%Y-%m-%d")
+df_desert$month <-  format(df_desert$Date, "%Y-%m")
+df_desert <- df_desert[,-1]
+
+#Aggregate by month Savannah
+df_desert <- aggregate(x = cbind(df_desert$CO, df_desert$NO2, df_desert$SO2, df_desert$PM2_5), by = list(df_desert$month), FUN = mean)
+colnames(df_desert) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Subtrop
+df_subtrop$Date <-  strptime(as.character(df_subtrop$DATE), "%Y-%m-%d")
+df_subtrop$month <-  format(df_subtrop$Date, "%Y-%m")
+df_subtrop <- df_subtrop[,-1]
+
+#Aggregate by month Subtrop
+df_subtrop <- aggregate(x = cbind(df_subtrop$CO, df_subtrop$NO2, df_subtrop$SO2, df_subtrop$PM2_5), by = list(df_subtrop$month), FUN = mean)
+colnames(df_subtrop) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Med
+df_med$Date <-  strptime(as.character(df_med$DATE), "%Y-%m-%d")
+df_med$month <-  format(df_med$Date, "%Y-%m")
+df_med <- df_med[,-1]
+
+#Aggregate by month Med
+df_med <- aggregate(x = cbind(df_med$CO, df_med$NO2, df_med$SO2, df_med$PM2_5), by = list(df_med$month), FUN = mean)
+colnames(df_med) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Highland
+df_highland$Date <-  strptime(as.character(df_highland$DATE), "%Y-%m-%d")
+df_highland$month <-  format(df_highland$Date, "%Y-%m")
+df_highland <- df_highland[,-1]
+
+#Aggregate by month Med
+df_highland <- aggregate(x = cbind(df_highland$CO, df_highland$NO2, df_highland$SO2, df_highland$PM2_5), by = list(df_highland$month), FUN = mean)
+colnames(df_highland) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Monsoon
+df_monsoon$Date <-  strptime(as.character(df_monsoon$DATE), "%Y-%m-%d")
+df_monsoon$month <-  format(df_monsoon$Date, "%Y-%m")
+df_monsoon <- df_monsoon[,-1]
+
+#Aggregate by month Monsoon
+df_monsoon <- aggregate(x = cbind(df_monsoon$CO, df_monsoon$NO2, df_monsoon$SO2, df_monsoon$PM2_5), by = list(df_monsoon$month), FUN = mean)
+colnames(df_monsoon) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+```
+
+#Combine Unemployment and Open Weather Data
+```{r}
+sav_full <- merge(df_sav,sav_unemp,by='month')
+desert_full <- merge(df_desert,desert_unemp,by='month')
+med_full <- merge(df_med,med_unemp,by='month')
+subtrop_full <- merge(df_subtrop,subtrop_unemp,by='month')
+highland_full <- merge(df_highland,highland_unemp,by='month')
+monsoon_full <- merge(df_monsoon,monsoon_unemp,by='month')
+```
+
+#Compare Quarterly Trends
+```{r}
+library(quantmod)
+```
+
+
+```{r}
+#Q42020
+#Savannah +/+
+#Emissions
+(sav_full[2,2]-sav_full[1,2])/sav_full[2,2]*100 #+
+(sav_full[2,3]-sav_full[1,3])/sav_full[2,3]*100 #+
+(sav_full[2,4]-sav_full[1,4])/sav_full[2,4]*100 #+
+(sav_full[2,5]-sav_full[1,5])/sav_full[2,5]*100 #+
+#Unemployment
+(sav_full[2,6]-sav_full[1,6])/sav_full[2,6]*100 #+
+
+#Desert +/+
+#Emissions
+(desert_full[2,2]-desert_full[1,2])/desert_full[2,2]*100 #+
+(desert_full[2,3]-desert_full[1,3])/desert_full[2,3]*100 #+
+(desert_full[2,4]-desert_full[1,4])/desert_full[2,4]*100 #+
+(desert_full[2,5]-desert_full[1,5])/desert_full[2,5]*100 #+
+
+#Unemployment
+(desert_full[2,6]-desert_full[1,6])/desert_full[2,6]*100 #+
+
+#Subtrop +/+
+#Emissions
+(subtrop_full[2,2]-subtrop_full[1,2])/subtrop_full[2,2]*100 #+
+(subtrop_full[2,3]-subtrop_full[1,3])/subtrop_full[2,3]*100 #- (weak)
+(subtrop_full[2,4]-subtrop_full[1,4])/subtrop_full[2,4]*100 #+
+(subtrop_full[2,5]-subtrop_full[1,5])/subtrop_full[2,5]*100 #+
+#Unemployment
+(subtrop_full[2,6]-subtrop_full[1,6])/subtrop_full[2,6]*100 # +
+
+#Med +/+
+#Emissions 
+(med_full[2,2]-med_full[1,2])/med_full[2,2]*100 #+
+(med_full[2,3]-med_full[1,3])/med_full[2,3]*100 #+
+(med_full[2,4]-med_full[1,4])/med_full[2,4]*100 #- (weak)
+(med_full[2,5]-med_full[1,5])/med_full[2,5]*100 #+
+#Unemployment
+(med_full[2,6]-med_full[1,6])/med_full[2,6]*100 # +
+
+#Highland +/+
+#Emissions 
+(highland_full[2,2]-highland_full[1,2])/highland_full[2,2]*100 #+
+(highland_full[2,3]-highland_full[1,3])/highland_full[2,3]*100 #- (weak)
+(highland_full[2,4]-highland_full[1,4])/highland_full[2,4]*100 #- (weak)
+(highland_full[2,5]-highland_full[1,5])/highland_full[2,5]*100 #+
+#Unemployment
+(highland_full[2,6]-highland_full[1,6])/highland_full[2,6]*100 # +
+
+#Monsoon
+#Emissions 
+(monsoon_full[2,2]-monsoon_full[1,2])/monsoon_full[2,2]*100 # +
+(monsoon_full[2,3]-monsoon_full[1,3])/monsoon_full[2,3]*100 # +
+(monsoon_full[2,4]-monsoon_full[1,4])/monsoon_full[2,4]*100 # +
+(monsoon_full[2,5]-monsoon_full[1,5])/monsoon_full[2,5]*100 # +
+#Unemployment
+(monsoon_full[2,6]-monsoon_full[1,6])/monsoon_full[2,6]*100 # +
+
+
+#Q12021 (rows 3,4,5)
+
+#Savannah -/-
+#Emissions
+(sav_full[5,2]-sav_full[3,2])/sav_full[5,2]*100 #-
+(sav_full[5,3]-sav_full[3,3])/sav_full[5,3]*100 #-
+(sav_full[5,4]-sav_full[3,4])/sav_full[5,4]*100 #-
+(sav_full[5,5]-sav_full[3,5])/sav_full[5,5]*100 #-
+#Unemployment
+(sav_full[5,6]-sav_full[3,6])/sav_full[5,6]*100 #-
+
+#Desert -/+
+#Emissions
+(desert_full[5,2]-desert_full[3,2])/desert_full[5,2]*100 #-
+(desert_full[5,3]-desert_full[3,3])/desert_full[5,3]*100 #-
+(desert_full[5,4]-desert_full[3,4])/desert_full[5,4]*100 #-
+(desert_full[5,5]-desert_full[3,5])/desert_full[5,5]*100 #-
+
+#Unemployment
+(desert_full[5,6]-desert_full[3,6])/desert_full[5,6]*100 #+
+
+#Subtrop -/-
+#Emissions
+(subtrop_full[5,2]-subtrop_full[3,2])/subtrop_full[5,2]*100 #-
+(subtrop_full[5,3]-subtrop_full[3,3])/subtrop_full[5,3]*100 #-
+(subtrop_full[5,4]-subtrop_full[3,4])/subtrop_full[5,4]*100 #-
+(subtrop_full[5,5]-subtrop_full[3,5])/subtrop_full[5,5]*100 #-
+#Unemployment
+(subtrop_full[5,6]-subtrop_full[3,6])/subtrop_full[5,6]*100 #-
+
+#Med -/-
+#Emissions
+(med_full[5,2]-med_full[3,2])/med_full[5,2]*100 #-
+(med_full[5,3]-med_full[3,3])/med_full[5,3]*100 #+
+(med_full[5,4]-med_full[3,4])/med_full[5,4]*100 #-
+(med_full[5,5]-med_full[3,5])/med_full[5,5]*100 #-
+#Unemployment
+(med_full[5,6]-med_full[3,6])/med_full[5,6]*100 #-
+
+#Highland +/+
+#Emissions
+(highland_full[5,2]-highland_full[3,2])/highland_full[5,2]*100 #+
+(highland_full[5,3]-highland_full[3,3])/highland_full[5,3]*100 #-
+(highland_full[5,4]-highland_full[3,4])/highland_full[5,4]*100 #+
+(highland_full[5,5]-highland_full[3,5])/highland_full[5,5]*100 #+
+#Unemployment
+(highland_full[5,6]-highland_full[3,6])/highland_full[5,6]*100 #+
+
+#Monsoon +/-
+#Emissions 
+(monsoon_full[5,2]-monsoon_full[3,2])/monsoon_full[5,2]*100 # -
+(monsoon_full[5,3]-monsoon_full[3,3])/monsoon_full[5,3]*100 # -
+(monsoon_full[5,4]-monsoon_full[3,4])/monsoon_full[5,4]*100 # -
+(monsoon_full[5,5]-monsoon_full[3,5])/monsoon_full[5,5]*100 # -
+#Unemployment
+(monsoon_full[5,6]-monsoon_full[3,6])/monsoon_full[5,6]*100 # +
+
+
+#Q22021
+#Savannah -/+
+#Emissions
+(sav_full[8,2]-sav_full[6,2])/sav_full[8,2]*100 #-
+(sav_full[8,3]-sav_full[6,3])/sav_full[8,3]*100 #-
+(sav_full[8,4]-sav_full[6,4])/sav_full[8,4]*100 #-
+(sav_full[8,5]-sav_full[6,5])/sav_full[8,5]*100 #-
+#Unemployment
+(sav_full[8,6]-sav_full[6,6])/sav_full[8,6]*100 #+
+
+#Desert -/-
+#Emissions
+(desert_full[8,2]-desert_full[6,2])/desert_full[8,2]*100 #-
+(desert_full[8,3]-desert_full[6,3])/desert_full[8,3]*100 #-
+(desert_full[8,4]-desert_full[6,4])/desert_full[8,4]*100 #-
+(desert_full[8,5]-desert_full[6,5])/desert_full[8,5]*100 #-
+
+#Unemployment
+(desert_full[8,6]-desert_full[6,6])/desert_full[8,6]*100 #-
+
+#Subtrop -/- 
+#Emissions
+(subtrop_full[8,2]-subtrop_full[6,2])/subtrop_full[8,2]*100 #+
+(subtrop_full[8,3]-subtrop_full[6,3])/subtrop_full[8,3]*100 #-
+(subtrop_full[8,4]-subtrop_full[6,4])/subtrop_full[8,4]*100 #-
+(subtrop_full[8,5]-subtrop_full[6,5])/subtrop_full[8,5]*100 #+
+#Unemployment
+(subtrop_full[8,6]-subtrop_full[6,6])/subtrop_full[8,6]*100 #-
+
+#Med -/-
+#Emissions 
+(med_full[8,2]-med_full[6,2])/med_full[8,2]*100 #-
+(med_full[8,3]-med_full[6,3])/med_full[8,3]*100 #-
+(med_full[8,4]-med_full[6,4])/med_full[8,4]*100 #-
+(med_full[8,5]-med_full[6,5])/med_full[8,5]*100 #-
+#Unemployment
+(med_full[8,6]-med_full[6,6])/med_full[8,6]*100 #-
+
+
+#Highland -/-
+#Emissions 
+(highland_full[8,2]-highland_full[6,2])/highland_full[8,2]*100 #-
+(highland_full[8,3]-highland_full[6,3])/highland_full[8,3]*100 #-
+(highland_full[8,4]-highland_full[6,4])/highland_full[8,4]*100 #-
+(highland_full[8,5]-highland_full[6,5])/highland_full[8,5]*100 #-
+#Unemployment
+(highland_full[8,6]-highland_full[6,6])/highland_full[8,6]*100 #-
+
+#Monsoon -/+
+#Emissions 
+(monsoon_full[8,2]-monsoon_full[6,2])/monsoon_full[8,2]*100 #-
+(monsoon_full[8,3]-monsoon_full[6,3])/monsoon_full[8,3]*100 #-
+(monsoon_full[8,4]-monsoon_full[6,4])/monsoon_full[8,4]*100 #-
+(monsoon_full[8,5]-monsoon_full[6,5])/monsoon_full[8,5]*100 #-
+#Unemployment
+(monsoon_full[8,6]-monsoon_full[6,6])/monsoon_full[8,6]*100 #+
+
+#Q32021
+#Savannah +/+
+#Emissions
+(sav_full[11,2]-sav_full[9,2])/sav_full[11,2]*100 #+
+(sav_full[11,3]-sav_full[9,3])/sav_full[11,3]*100 #+
+(sav_full[11,4]-sav_full[9,4])/sav_full[11,4]*100 #+
+(sav_full[11,5]-sav_full[9,5])/sav_full[11,5]*100 #+
+#Unemployment
+(sav_full[11,6]-sav_full[9,6])/sav_full[11,6]*100 #+
+
+#Desert +/-
+#Emissions
+(desert_full[11,2]-desert_full[9,2])/desert_full[11,2]*100 #+
+(desert_full[11,3]-desert_full[9,3])/desert_full[11,3]*100 #+
+(desert_full[11,4]-desert_full[9,4])/desert_full[11,4]*100 #+
+(desert_full[11,5]-desert_full[9,5])/desert_full[11,5]*100 #+
+#Unemployment
+(desert_full[11,6]-desert_full[9,6])/desert_full[11,6]*100 #-
+
+#Subtrop +/+
+#Emissions
+(subtrop_full[11,2]-subtrop_full[9,2])/subtrop_full[11,2]*100 #+
+(subtrop_full[11,3]-subtrop_full[9,3])/subtrop_full[11,3]*100 #+
+(subtrop_full[11,4]-subtrop_full[9,4])/subtrop_full[11,4]*100 #-
+(subtrop_full[11,5]-subtrop_full[9,5])/subtrop_full[11,5]*100 #+
+#Unemployment
+(subtrop_full[11,6]-subtrop_full[9,6])/subtrop_full[11,6]*100 #+
+
+#Med +/+
+#Emissions
+(med_full[11,2]-med_full[9,2])/med_full[11,2]*100 #+
+(med_full[11,3]-med_full[9,3])/med_full[11,3]*100 #+
+(med_full[11,4]-med_full[9,4])/med_full[11,4]*100 #+
+(med_full[11,5]-med_full[9,5])/med_full[11,5]*100 #+
+#Unemployment
+(med_full[11,6]-med_full[9,6])/med_full[11,6]*100 #+
+
+
+#Highland +/+
+#Emissions 
+(highland_full[11,2]-highland_full[9,2])/highland_full[11,2]*100 #-
+(highland_full[11,3]-highland_full[9,3])/highland_full[11,3]*100 #+
+(highland_full[11,4]-highland_full[9,4])/highland_full[11,4]*100 #+
+(highland_full[11,5]-highland_full[9,5])/highland_full[11,5]*100 #+
+#Unemployment
+(highland_full[11,6]-highland_full[9,6])/highland_full[11,6]*100 #+
+
+#Monsoon +/+
+#Emissions
+(monsoon_full[11,2]-monsoon_full[9,2])/monsoon_full[11,2]*100 #+
+(monsoon_full[11,3]-monsoon_full[9,3])/monsoon_full[11,3]*100 #+
+(monsoon_full[11,4]-monsoon_full[9,4])/monsoon_full[11,4]*100 #+
+(monsoon_full[11,5]-monsoon_full[9,5])/monsoon_full[11,5]*100 #+
+#Unemployment
+(monsoon_full[11,6]-monsoon_full[9,6])/monsoon_full[11,6]*100 #+
+
+
+#Q42021
+#Savannah +/+
+#Emissions
+(sav_full[14,2]-sav_full[12,2])/sav_full[14,2]*100 #+
+(sav_full[14,3]-sav_full[12,3])/sav_full[14,3]*100 #+
+(sav_full[14,4]-sav_full[12,4])/sav_full[14,4]*100 #-
+(sav_full[14,5]-sav_full[12,5])/sav_full[14,5]*100 #+
+#Unemployment
+(sav_full[14,6]-sav_full[12,6])/sav_full[14,6]*100 #+
+
+#Desert +/-
+#Emissions
+(desert_full[14,2]-desert_full[12,2])/desert_full[14,2]*100 #+
+(desert_full[14,3]-desert_full[12,3])/desert_full[14,3]*100 #+
+(desert_full[14,4]-desert_full[12,4])/desert_full[14,4]*100 #+
+(desert_full[14,5]-desert_full[12,5])/desert_full[14,5]*100 #+
+#Unemployment
+(desert_full[14,6]-desert_full[12,6])/desert_full[14,6]*100 #-
+
+#Subtrop +/-
+#Emissions
+(subtrop_full[14,2]-subtrop_full[12,2])/subtrop_full[14,2]*100 #+
+(subtrop_full[14,3]-subtrop_full[12,3])/subtrop_full[14,3]*100 #+
+(subtrop_full[14,4]-subtrop_full[12,4])/subtrop_full[14,4]*100 #+
+(subtrop_full[14,5]-subtrop_full[12,5])/subtrop_full[14,5]*100 #+
+#Unemployment
+(subtrop_full[14,6]-subtrop_full[12,6])/subtrop_full[14,6]*100 #-
+
+#Med +/+
+#Emissions
+(med_full[14,2]-med_full[12,2])/med_full[14,2]*100 #+
+(med_full[14,3]-med_full[12,3])/med_full[14,3]*100 #+
+(med_full[14,4]-med_full[12,4])/med_full[14,4]*100 #+
+(med_full[14,5]-med_full[12,5])/med_full[14,5]*100 #+
+#Unemployment
+(med_full[14,6]-med_full[12,6])/med_full[14,6]*100 #-
+
+#Highland +/-
+#Emissions
+(highland_full[14,2]-highland_full[12,2])/highland_full[14,2]*100 #-
+(highland_full[14,3]-highland_full[12,3])/highland_full[14,3]*100 #+
+(highland_full[14,4]-highland_full[12,4])/highland_full[14,4]*100 #+
+(highland_full[14,5]-highland_full[12,5])/highland_full[14,5]*100 #+
+#Unemployment
+(highland_full[14,6]-highland_full[12,6])/highland_full[14,6]*100 #-
+
+#Monsoon +/+
+#Emissions
+(monsoon_full[14,2]-monsoon_full[12,2])/monsoon_full[14,2]*100 #+
+(monsoon_full[14,3]-monsoon_full[12,3])/monsoon_full[14,3]*100 #+
+(monsoon_full[14,4]-monsoon_full[12,4])/monsoon_full[14,4]*100 #+
+(monsoon_full[14,5]-monsoon_full[12,5])/monsoon_full[14,5]*100 #+
+#Unemployment
+(monsoon_full[14,6]-monsoon_full[12,6])/monsoon_full[14,6]*100 #+
+
+#Q12022
+#Savannah -/-
+#Emissions
+(sav_full[17,2]-sav_full[15,2])/sav_full[17,2]*100 #-
+(sav_full[17,3]-sav_full[15,3])/sav_full[17,3]*100 #-
+(sav_full[17,4]-sav_full[15,4])/sav_full[17,4]*100 #+
+(sav_full[17,5]-sav_full[15,5])/sav_full[17,5]*100 #-
+#Unemployment
+(sav_full[17,6]-sav_full[15,6])/sav_full[17,6]*100 #-
+
+#Desert -/+
+#Emissions
+(desert_full[17,2]-desert_full[15,2])/desert_full[17,2]*100 #-
+(desert_full[17,3]-desert_full[15,3])/desert_full[17,3]*100 #-
+(desert_full[17,4]-desert_full[15,4])/desert_full[17,4]*100 #+
+(desert_full[17,5]-desert_full[15,5])/desert_full[17,5]*100 #-
+#Unemployment
+(desert_full[17,6]-desert_full[15,6])/desert_full[17,6]*100 #+
+
+#Subtrop -/+
+#Emissions
+(subtrop_full[17,2]-subtrop_full[15,2])/subtrop_full[17,2]*100 #-
+(subtrop_full[17,3]-subtrop_full[15,3])/subtrop_full[17,3]*100 #-
+(subtrop_full[17,4]-subtrop_full[15,4])/subtrop_full[17,4]*100 #+
+(subtrop_full[17,5]-subtrop_full[15,5])/subtrop_full[17,5]*100 #-
+#Unemployment
+(subtrop_full[17,6]-subtrop_full[15,6])/subtrop_full[17,6]*100 #+
+
+#Med -/-
+#Emissions
+(med_full[17,2]-med_full[15,2])/med_full[17,2]*100 #-
+(med_full[17,3]-med_full[15,3])/med_full[17,3]*100 #-
+(med_full[17,4]-med_full[15,4])/med_full[17,4]*100 #+
+(med_full[17,5]-med_full[15,5])/med_full[17,5]*100 #-
+#Unemployment
+(med_full[17,6]-med_full[15,6])/med_full[17,6]*100 #-
+
+#Highland +/+
+#Emissions
+(highland_full[17,2]-highland_full[15,2])/highland_full[17,2]*100 #+
+(highland_full[17,3]-highland_full[15,3])/highland_full[17,3]*100 #-
+(highland_full[17,4]-highland_full[15,4])/highland_full[17,4]*100 #+
+(highland_full[17,5]-highland_full[15,5])/highland_full[17,5]*100 #+
+#Unemployment
+(highland_full[17,6]-highland_full[15,6])/highland_full[17,6]*100 #+
+
+#Monsoon +/-
+#Emissions
+(monsoon_full[17,2]-monsoon_full[15,2])/monsoon_full[17,2]*100 #-
+(monsoon_full[17,3]-monsoon_full[15,3])/monsoon_full[17,3]*100 #+
+(monsoon_full[17,4]-monsoon_full[15,4])/monsoon_full[17,4]*100 #-
+(monsoon_full[17,5]-monsoon_full[15,5])/monsoon_full[17,5]*100 #+
+#Unemployment
+(monsoon_full[17,6]-monsoon_full[15,6])/monsoon_full[17,6]*100 #+
+
+#Q22022
+#Savannah -/-
+#Emissions
+(sav_full[20,2]-sav_full[18,2])/sav_full[20,2]*100 #-
+(sav_full[20,3]-sav_full[18,3])/sav_full[20,3]*100 #-
+(sav_full[20,4]-sav_full[18,4])/sav_full[20,4]*100 #-
+(sav_full[20,5]-sav_full[18,5])/sav_full[20,5]*100 #-
+#Unemployment
+(sav_full[20,6]-sav_full[18,6])/sav_full[20,6]*100 #-
+
+#Desert -/+
+#Emissions
+(desert_full[20,2]-desert_full[18,2])/desert_full[20,2]*100 #-
+(desert_full[20,3]-desert_full[18,3])/desert_full[20,3]*100 #-
+(desert_full[20,4]-desert_full[18,4])/desert_full[20,4]*100 #-
+(desert_full[20,5]-desert_full[18,5])/desert_full[20,5]*100 #-
+#Unemployment
+(desert_full[20,6]-desert_full[18,6])/desert_full[20,6]*100 #+
+
+#Subtrop -/+
+#Emissions
+(subtrop_full[20,2]-subtrop_full[18,2])/subtrop_full[20,2]*100 #-
+(subtrop_full[20,3]-subtrop_full[18,3])/subtrop_full[20,3]*100 #-
+(subtrop_full[20,4]-subtrop_full[18,4])/subtrop_full[20,4]*100 #-
+(subtrop_full[20,5]-subtrop_full[18,5])/subtrop_full[20,5]*100 #-
+#Unemployment
+(subtrop_full[20,6]-subtrop_full[18,6])/subtrop_full[20,6]*100 #+
+
+#Med -/-
+#Emissions
+(med_full[20,2]-med_full[18,2])/med_full[20,2]*100 #-
+(med_full[20,3]-med_full[18,3])/med_full[20,3]*100 #-
+(med_full[20,4]-med_full[18,4])/med_full[20,4]*100 #-
+(med_full[20,5]-med_full[18,5])/med_full[20,5]*100 #-
+#Unemployment
+(med_full[20,6]-med_full[18,6])/med_full[20,6]*100 #-
+
+#Highland -/+
+#Emissions
+(highland_full[20,2]-highland_full[18,2])/highland_full[20,2]*100 #-
+(highland_full[20,3]-highland_full[18,3])/highland_full[20,3]*100 #-
+(highland_full[20,4]-highland_full[18,4])/highland_full[20,4]*100 #-
+(highland_full[20,5]-highland_full[18,5])/highland_full[20,5]*100 #-
+#Unemployment
+(highland_full[20,6]-highland_full[18,6])/highland_full[20,6]*100 #+
+
+#Monsoon -/-
+#Emissions
+(monsoon_full[20,2]-monsoon_full[18,2])/monsoon_full[20,2]*100 #-
+(monsoon_full[20,3]-monsoon_full[18,3])/monsoon_full[20,3]*100 #-
+(monsoon_full[20,4]-monsoon_full[18,4])/monsoon_full[20,4]*100 #-
+(monsoon_full[20,5]-monsoon_full[18,5])/monsoon_full[20,5]*100 #-
+#Unemployment
+(monsoon_full[20,6]-monsoon_full[18,6])/monsoon_full[20,6]*100 #-
+
+#Q32022
+#Savannah -/+
+#Emissions
+(sav_full[21,2]-sav_full[20,2])/sav_full[21,2]*100 #-
+(sav_full[21,3]-sav_full[20,3])/sav_full[21,3]*100 #-
+(sav_full[21,4]-sav_full[20,4])/sav_full[21,4]*100 #-
+(sav_full[21,5]-sav_full[20,5])/sav_full[21,5]*100 #-
+#Unemployment
+(sav_full[21,6]-sav_full[20,6])/sav_full[21,6]*100 #+
+
+#Desert
+#Emissions
+(desert_full[21,2]-desert_full[20,2])/desert_full[21,2]*100 #+
+(desert_full[21,3]-desert_full[20,3])/desert_full[21,3]*100 #+
+(desert_full[21,4]-desert_full[20,4])/desert_full[21,4]*100 #-
+(desert_full[21,5]-desert_full[20,5])/desert_full[21,5]*100 #-
+#Unemployment
+(desert_full[21,6]-desert_full[20,6])/desert_full[21,6]*100 #-
+
+#Subtrop -/+
+#Emissions
+(subtrop_full[21,2]-subtrop_full[20,2])/subtrop_full[21,2]*100 #-
+(subtrop_full[21,3]-subtrop_full[20,3])/subtrop_full[21,3]*100 #-
+(subtrop_full[21,4]-subtrop_full[20,4])/subtrop_full[21,4]*100 #-
+(subtrop_full[21,5]-subtrop_full[20,5])/subtrop_full[21,5]*100 #-
+#Unemployment
+(subtrop_full[21,6]-subtrop_full[20,6])/subtrop_full[21,6]*100 #+
+
+#Med -/+
+#Emissions
+(med_full[21,2]-med_full[20,2])/med_full[21,2]*100 #-
+(med_full[21,3]-med_full[20,3])/med_full[21,3]*100 #-
+(med_full[21,4]-med_full[20,4])/med_full[21,4]*100 #-
+(med_full[21,5]-med_full[20,5])/med_full[21,5]*100 #-
+#Unemployment
+(med_full[21,6]-med_full[20,6])/med_full[21,6]*100 #+
+
+#Highland -/-
+#Emissions
+(highland_full[21,2]-highland_full[20,2])/highland_full[21,2]*100 #-
+(highland_full[21,3]-highland_full[20,3])/highland_full[21,3]*100 #-
+(highland_full[21,4]-highland_full[20,4])/highland_full[21,4]*100 #-
+(highland_full[21,5]-highland_full[20,5])/highland_full[21,5]*100 #-
+#Unemployment
+(highland_full[21,6]-highland_full[20,6])/highland_full[21,6]*100 #-
+
+#Monsoon -/-
+#Emissions
+(monsoon_full[21,2]-monsoon_full[20,2])/monsoon_full[21,2]*100 #-
+(monsoon_full[21,3]-monsoon_full[20,3])/monsoon_full[21,3]*100 #-
+(monsoon_full[21,4]-monsoon_full[20,4])/monsoon_full[21,4]*100 #-
+(monsoon_full[21,5]-monsoon_full[20,5])/monsoon_full[21,5]*100 #-
+#Unemployment
+(monsoon_full[21,6]-monsoon_full[20,6])/monsoon_full[21,6]*100 #-
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

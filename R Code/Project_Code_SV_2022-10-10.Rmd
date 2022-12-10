@@ -1,0 +1,1127 @@
+#rm(list=ls())
+#Read Data
+```{r}
+Agartala <- read.csv('api_data_IN_Agartala_raw.csv', head = TRUE)
+Agra <- read.csv('api_data_IN_Agra_raw.csv', head = TRUE)
+Aizwal <- read.csv('api_data_IN_Aizwal_raw.csv', head = TRUE)
+Amritsar <- read.csv('api_data_IN_Amritsar_raw.csv', head = TRUE)
+Asansol <- read.csv('api_data_IN_Asansol_raw.csv', head = TRUE)
+Aurangabad <- read.csv('api_data_IN_Aurangabad_raw.csv', head = TRUE)
+Bareilly <- read.csv('api_data_IN_Bareilly_raw.csv', head = TRUE)
+Belgaum <- read.csv('api_data_IN_Belgaum_raw.csv', head = TRUE)
+Bengaluru <- read.csv('api_data_IN_Bengaluru_raw.csv', head = TRUE)
+Bhilai <- read.csv('api_data_IN_Bhilai_raw.csv', head = TRUE)
+Bhopal <- read.csv('api_data_IN_Bhopal_raw.csv', head = TRUE)
+Chandigarh<- read.csv('api_data_IN_Chandigarh_raw.csv', head = TRUE)
+Chennai <- read.csv('api_data_IN_Chennai_raw.csv', head = TRUE)
+Coimbatore <- read.csv('api_data_IN_Coimbatore_raw.csv', head = TRUE)
+Dehradun <- read.csv('api_data_IN_Dehradun_raw.csv', head = TRUE)
+Delhi <- read.csv('api_data_IN_Delhi_raw.csv', head = TRUE)
+Faridabad <- read.csv('api_data_IN_Faridabad_raw.csv', head = TRUE)
+Gandhinagar<- read.csv('api_data_IN_Gandhinagar_raw.csv', head = TRUE)
+Gangtok <- read.csv('api_data_IN_Gangtok_raw.csv', head = TRUE)
+Ghaziabad <- read.csv('api_data_IN_Ghaziabad_raw.csv', head = TRUE)
+Gorakhpur <- read.csv('api_data_IN_Gorakhpur_raw.csv', head = TRUE)
+Gwalior <- read.csv('api_data_IN_Gwalior_raw.csv', head = TRUE)
+Hyderabad <- read.csv('api_data_IN_Hyderabad_raw.csv', head = TRUE)
+Imphal <- read.csv('api_data_IN_Imphal_raw.csv', head = TRUE)
+Indore<- read.csv('api_data_IN_Indore_raw.csv', head = TRUE)
+Jabalpur <- read.csv('api_data_IN_Jabalpur_raw.csv', head = TRUE)
+Jaipur <- read.csv('api_data_IN_Jaipur_raw.csv', head = TRUE)
+Jalandhar <- read.csv('api_data_IN_Jalandhar_raw.csv', head = TRUE)
+Jodhpur<- read.csv('api_data_IN_Jodhpur_raw.csv', head = TRUE)
+Kanpur <- read.csv('api_data_IN_Kanpur_raw.csv', head = TRUE)
+Kochi <- read.csv('api_data_IN_Kochi_raw.csv', head = TRUE)
+Kohima<- read.csv('api_data_IN_Kohima_raw.csv', head = TRUE)
+Kolkata <- read.csv('api_data_IN_Kolkata_raw.csv', head = TRUE)
+Kota <- read.csv('api_data_IN_Kota_raw.csv', head = TRUE)
+Kozhikode <- read.csv('api_data_IN_Kozhikode_raw.csv', head = TRUE)
+Lucknow <- read.csv('api_data_IN_Lucknow_raw.csv', head = TRUE)
+Ludhiana <- read.csv('api_data_IN_Ludhiana_raw.csv', head = TRUE)
+Mangalore <- read.csv('api_data_IN_Mangalore_raw.csv', head = TRUE)
+Meerut <- read.csv('api_data_IN_Meerut_raw.csv', head = TRUE)
+Moradabad <- read.csv('api_data_IN_Moradabad_raw.csv', head = TRUE)
+Mumbai <- read.csv('api_data_IN_Mumbai_raw.csv', head = TRUE)
+Mysuru <- read.csv('api_data_IN_Mysuru_raw.csv', head = TRUE)
+Nashik <- read.csv('api_data_IN_Nashik_raw.csv', head = TRUE)
+Patna <- read.csv('api_data_IN_Patna_raw.csv', head = TRUE)
+Prayagraj <- read.csv('api_data_IN_Prayagraj_raw.csv', head = TRUE)
+Puducherry <- read.csv('api_data_IN_Puducherry_raw.csv', head = TRUE)
+Pune<- read.csv('api_data_IN_Pune_raw.csv', head = TRUE)
+Shillong <- read.csv('api_data_IN_Shillong_raw.csv', head = TRUE)
+Solapur <- read.csv('api_data_IN_Solapur_raw.csv', head = TRUE)
+Srinagar <- read.csv('api_data_IN_Srinagar_raw.csv', head = TRUE)
+Thiruvananthapuram <- read.csv('api_data_IN_Thiruvananthapuram_raw.csv', head = TRUE)
+Varanasi <- read.csv('api_data_IN_Varanasi_raw.csv', head = TRUE)
+Vijaywada <- read.csv('api_data_IN_Vijaywada_raw.csv', head = TRUE)
+Visakhapatnam <- read.csv('api_data_IN_Visakhapatnam_raw.csv', head = TRUE)
+```
+
+
+#Get Lat and Long for each City
+```{r}
+Agartala_latlong <- Agartala[1,2:4]
+Agra_latlong <- Agra[1,2:4]
+Aizwal_latlong <- Aizwal[1,2:4]
+Amritsar_latlong <- Amritsar[1,2:4]
+Asansol_latlong <- Asansol[1,2:4]
+Aurangabad_latlong <-Aurangabad[1,2:4]
+Bareilly_latlong <- Bareilly[1,2:4]
+Belgaum_latlong <- Belgaum[1,2:4]
+Bengaluru_latlong <- Bengaluru[1,2:4]
+Bhilai_latlong <- Bhilai[1,2:4]
+Bhopal_latlong <- Bhopal[1,2:4]
+Chandigarh_latlong<- Chandigarh[1,2:4] 
+Chennai_latlong <- Chennai[1,2:4]
+Coimbatore_latlong <- Coimbatore[1,2:4]
+Dehradun_latlong <-Dehradun[1,2:4]
+Delhi_latlong <- Delhi[1,2:4]
+Faridabad_latlong <- Faridabad[1,2:4]
+Gandhinagar_latlong<-Gandhinagar[1,2:4]
+Gangtok_latlong <- Gangtok[1,2:4]
+Ghaziabad_latlong <- Ghaziabad[1,2:4]
+Gorakhpur_latlong <- Gorakhpur[1,2:4]
+Gwalior_latlong <- Gwalior[1,2:4]
+Hyderabad_latlong <- Hyderabad[1,2:4]
+Imphal_latlong <- Imphal[1,2:4]
+Indore_latlong<- Indore[1,2:4]
+Jabalpur_latlong <- Jabalpur[1,2:4]
+Jaipur_latlong <- Jaipur[1,2:4]
+Jalandhar_latlong <-Jalandhar[1,2:4]
+Jodhpur_latlong<-Jodhpur[1,2:4]
+Kanpur_latlong <- Kanpur[1,2:4]
+Kochi_latlong <- Kochi[1,2:4]
+Kohima_latlong<- Kohima[1,2:4]
+Kolkata_latlong <- Kolkata[1,2:4]
+Kota_latlong <- Kota[1,2:4]
+Kozhikode_latlong <-Kozhikode[1,2:4]
+Lucknow_latlong <-Lucknow[1,2:4]
+Ludhiana_latlong <- Ludhiana[1,2:4]
+Mangalore_latlong <- Mangalore[1,2:4]
+Meerut_latlong <- Meerut[1,2:4]
+Moradabad_latlong <- Moradabad[1,2:4]
+Mumbai_latlong <- Mumbai[1,2:4]
+Mysuru_latlong <- Mysuru[1,2:4]
+Nashik_latlong <- Nashik[1,2:4]
+Patna_latlong <- Patna[1,2:4]
+Prayagraj_latlong <- Prayagraj[1,2:4]
+Puducherry_latlong <- Puducherry[1,2:4]
+Pune_latlong<- Pune[1,2:4]
+Shillong_latlong <- Shillong[1,2:4]
+Solapur_latlong <- Solapur[1,2:4]
+Srinagar_latlong <- Srinagar[1,2:4]
+Thiruvananthapuram_latlong <- Thiruvananthapuram[1,2:4]
+Varanasi_latlong <- Varanasi[1,2:4]
+Vijaywada_latlong <- Vijaywada[1,2:4]
+Visakhapatnam_latlong <- Visakhapatnam[1,2:4]
+```
+
+#Merge Rows
+```{r}
+df <- Agartala_latlong
+df[nrow(df) + 1,] <- Agra_latlong
+df[nrow(df) + 1,] <- Aizwal_latlong
+df[nrow(df) + 1,] <- Amritsar_latlong 
+df[nrow(df) + 1,] <- Asansol_latlong 
+df[nrow(df) + 1,] <- Aurangabad_latlong
+df[nrow(df) + 1,] <- Bareilly_latlong
+df[nrow(df) + 1,] <- Belgaum_latlong
+df[nrow(df) + 1,] <- Bengaluru_latlong
+df[nrow(df) + 1,] <- Bhilai_latlong
+df[nrow(df) + 1,] <- Bhopal_latlong
+df[nrow(df) + 1,] <-Chandigarh_latlong
+df[nrow(df) + 1,] <-Chennai_latlong
+df[nrow(df) + 1,] <-Coimbatore_latlong
+df[nrow(df) + 1,] <-Dehradun_latlong
+df[nrow(df) + 1,] <-Delhi_latlong
+df[nrow(df) + 1,] <-Faridabad_latlong
+df[nrow(df) + 1,] <-Gandhinagar_latlong
+df[nrow(df) + 1,] <-Gangtok_latlong
+df[nrow(df) + 1,] <- Ghaziabad_latlong
+df[nrow(df) + 1,] <-Gorakhpur_latlong
+df[nrow(df) + 1,] <-Gwalior_latlong
+df[nrow(df) + 1,] <-Hyderabad_latlong
+df[nrow(df) + 1,] <-Imphal_latlong
+df[nrow(df) + 1,] <-Indore_latlong
+df[nrow(df) + 1,] <-Jabalpur_latlong
+df[nrow(df) + 1,] <- Jaipur_latlong
+df[nrow(df) + 1,] <-Jalandhar_latlong
+df[nrow(df) + 1,] <- Jodhpur_latlong
+df[nrow(df) + 1,] <-Kanpur_latlong
+df[nrow(df) + 1,] <-Kochi_latlong
+df[nrow(df) + 1,] <-Kohima_latlong
+df[nrow(df) + 1,] <-Kolkata_latlong
+df[nrow(df) + 1,] <-Kota_latlong
+df[nrow(df) + 1,] <- Kozhikode_latlong
+df[nrow(df) + 1,] <- Lucknow_latlong
+df[nrow(df) + 1,] <-Ludhiana_latlong
+df[nrow(df) + 1,] <-Mangalore_latlong
+df[nrow(df) + 1,] <-Meerut_latlong
+df[nrow(df) + 1,] <-Moradabad_latlong
+df[nrow(df) + 1,] <-Mumbai_latlong
+df[nrow(df) + 1,] <-Mysuru_latlong
+df[nrow(df) + 1,] <-Nashik_latlong
+df[nrow(df) + 1,] <-Patna_latlong
+df[nrow(df) + 1,] <-Prayagraj_latlong
+df[nrow(df) + 1,] <-Puducherry_latlong
+df[nrow(df) + 1,] <-Pune_latlong
+df[nrow(df) + 1,] <-Shillong_latlong
+df[nrow(df) + 1,] <-Solapur_latlong
+df[nrow(df) + 1,] <-Srinagar_latlong
+df[nrow(df) + 1,] <-Thiruvananthapuram_latlong
+df[nrow(df) + 1,] <-Varanasi_latlong
+df[nrow(df) + 1,] <-Vijaywada_latlong
+df[nrow(df) + 1,] <- Visakhapatnam_latlong
+```
+
+#Assign Clusters
+```{r}
+
+#Savannah             1
+#Steppe and Desert    2
+#Humid Subtropical    3
+#Mediterran           4
+#Oceanic Subtropical Highland             5
+#Monsoon              6
+#Marine West Coast    7
+
+clusters <- c('Savannah','Desert','Subtropical','Subtropical','Savannah','Desert','Subtropical','Savannah','Savannah','Savannah','Mediterran','Subtropical','Savannah','Savannah','Subtropical','Subtropical','Desert','Desert','Oceanic Subtropical Highland','Subtropical','Subtropical','Mediterran','Savannah','Subtropical','Savannah','Mediterran','Desert','Subtropical','Desert','Mediterran','Monsoon', 'Oceanic Subtropical Highland','Savannah','Desert','Monsoon','Mediterran','Subtropical','Savannah','Subtropical','Subtropical','Savannah','Savannah','Savannah','Subtropical','Savannah','Mediterran','Savannah','Subtropical','Desert','Marine West Coast','Monsoon','Subtropical','Savannah','Savannah')
+
+df$Cluster <- cbind(df, clusters)
+
+```
+
+#Export CSV
+```{r}
+write.csv(df,"cluster2.csv")
+```
+
+
+#Read New CSV
+```{r}
+df <- read.csv('cluster.csv', head = TRUE)
+```
+
+
+
+#Create df based on climate cluster
+```{r}
+sav <- df[df$Cluster.Name == 'Savannah',]
+desert <- df[df$Cluster.Name == 'Desert',] 
+subtrop <- df[df$Cluster.Name == 'Subtropical',] 
+med <- df[df$Cluster.Name == 'Mediterran',] 
+highland <- df[df$Cluster.Name == 'Oceanic Subtropical Highland',] 
+monsoon <- df[df$Cluster.Name == 'Monsoon',] 
+
+```
+
+#Combine Weather Data for Each Group
+```{r}
+#Savannah
+sav_city <- sav$City
+df_sav <- rbind(Agartala,Asansol,Belgaum,Bengaluru,Bhilai,Chennai,Coimbatore,Hyderabad,Indore,Kolkata,Mangalore,Mumbai,Mysuru,Nashik,Prayagraj,Puducherry,Pune,Vijaywada,Visakhapatnam)
+
+#Desert
+desert_city <- desert$City
+df_desert <- rbind(Agra,Aurangabad,Faridabad,Gandhinagar,Jaipur,Jodhpur,Kota,Solapur)
+
+#Subtropical
+subtrop_city <- subtrop$City
+df_subtrop <- rbind(Aizwal,Amritsar,Bareilly,Chandigarh,Dehradun,Delhi,Ghaziabad,Gorakhpur,Imphal,Jalandhar,Ludhiana,Meerut,Moradabad,Patna,Shillong,Srinagar,Varanasi)
+
+#Mediterran
+med_city <- med$City
+df_med <- rbind(Bhopal,Gwalior,Jabalpur,Kanpur,Lucknow)
+
+#Oceanic Highland
+highland_city <- highland$City
+df_highland <- rbind(Gangtok,Kohima)
+
+#Monsoon
+monsoon_city <- monsoon$City
+df_monsoon <- rbind(Kochi, Kozhikode, Thiruvananthapuram)
+```
+
+#Plot Time series for each cluster by pollutant
+#Savannah
+#CO
+```{r}
+ts.plot(Agartala$CO, main='Agartala')
+ts.plot(Asansol$CO, main='Asansol')
+ts.plot(Belgaum$CO, main='Belgaum')
+ts.plot(Bengaluru$CO, main='Bengaluru')
+ts.plot(Bhilai$CO, main='Bhilai')
+ts.plot(Chennai$CO, main='Chennai')
+ts.plot(Coimbatore$CO, main='Coimbatore')
+ts.plot(Hyderabad$CO, main='Hyderabad')
+ts.plot(Indore$CO, main='Indore')
+ts.plot(Kolkata$CO, main='Kolkata')
+ts.plot(Mangalore$CO, main='Mangalore')
+ts.plot(Mumbai$CO, main='Mumbai')
+ts.plot(Mysuru$CO, main='Mysuru')
+ts.plot(Nashik$CO, main='Nashik')
+ts.plot(Prayagraj$CO, main='Prayagraj')
+ts.plot(Puducherry$CO, main='Puducherry')
+ts.plot(Pune$CO, main='Pune')
+ts.plot(Vijaywada$CO, main='Vijaywada')
+ts.plot(Visakhapatnam$CO, main='Visakhapatnam')
+
+#Trend plot for Pune
+pune.ts <- ts(Pune$CO, start=2020, freq=365)
+time.pts <- c(1:length(pune.ts))
+time.pts= c(time.pts- min(time.pts))/max(time.pts)
+
+##Splines Method for Trend Estimation
+gam.fit.co = gam(pune.ts~s(time.pts))
+pune.co.fit.gam = ts(fitted(gam.fit.co), start=2020, freq=365)
+
+ts.plot(pune.ts,ylab="CO", main="CO Trend")
+lines(pune.co.fit.gam,lwd=2,col="red")
+
+#Mumbai - still good but has high spikes in the typical drop period
+#Not like the others: Asansol, Puducherry, Visakhapatnam
+```
+#NO2
+```{r}
+ts.plot(Agartala$NO2, main='Agartala')
+ts.plot(Asansol$NO2, main='Asansol')
+ts.plot(Belgaum$NO2, main='Belgaum')
+ts.plot(Bengaluru$NO2, main='Bengaluru')
+ts.plot(Bhilai$NO2, main='Bhilai')
+ts.plot(Chennai$NO2, main='Chennai')
+ts.plot(Coimbatore$NO2, main='Coimbatore')
+ts.plot(Hyderabad$NO2, main='Hyderabad')
+ts.plot(Indore$NO2, main='Indore')
+ts.plot(Kolkata$NO2, main='Kolkata')
+ts.plot(Mangalore$NO2, main='Mangalore')
+ts.plot(Mumbai$NO2, main='Mumbai')
+ts.plot(Mysuru$NO2, main='Mysuru')
+ts.plot(Nashik$NO2, main='Nashik')
+ts.plot(Prayagraj$NO2, main='Prayagraj')
+ts.plot(Puducherry$NO2, main='Puducherry')
+ts.plot(Pune$NO2, main='Pune')
+ts.plot(Vijaywada$NO2, main='Vijaywada')
+ts.plot(Visakhapatnam$NO2, main='Visakhapatnam')
+
+#Trend plot for Pune
+pune.ts <- ts(Pune$NO2, start=2020, freq=365)
+time.pts <- c(1:length(pune.ts))
+time.pts= c(time.pts- min(time.pts))/max(time.pts)
+
+##Splines Method for Trend Estimation
+gam.fit.no = gam(pune.ts~s(time.pts))
+pune.no.fit.gam = ts(fitted(gam.fit.no), start=2020, freq=365)
+
+ts.plot(pune.ts,ylab="NO2", main="NO2 Trend")
+lines(pune.no.fit.gam,lwd=2,col="red")
+
+
+#Not like the others: Asansol, Bengaluru, Bhilai, Chennai, Mangalore, Mumbai, Nashik, Puducherry, Visakhapatnam
+```
+
+
+
+#SO2
+```{r}
+ts.plot(Agartala$SO2, main='Agartala')
+ts.plot(Asansol$SO2, main='Asansol')
+ts.plot(Belgaum$SO2, main='Belgaum')
+ts.plot(Bengaluru$SO2, main='Bengaluru')
+ts.plot(Bhilai$SO2, main='Bhilai')
+ts.plot(Chennai$SO2, main='Chennai')
+ts.plot(Coimbatore$SO2, main='Coimbatore')
+ts.plot(Hyderabad$SO2, main='Hyderabad')
+ts.plot(Indore$SO2, main='Indore')
+ts.plot(Kolkata$SO2, main='Kolkata')
+ts.plot(Mangalore$SO2, main='Mangalore')
+ts.plot(Mumbai$SO2, main='Mumbai')
+ts.plot(Mysuru$SO2, main='Mysuru')
+ts.plot(Nashik$SO2, main='Nashik')
+ts.plot(Prayagraj$SO2, main='Prayagraj')
+ts.plot(Puducherry$SO2, main='Puducherry')
+ts.plot(Pune$SO2, main='Pune')
+ts.plot(Vijaywada$SO2, main='Vijaywada')
+ts.plot(Visakhapatnam$SO2, main='Visakhapatnam')
+
+#Trend plot for Pune
+pune.ts <- ts(Pune$SO2, start=2020, freq=365)
+time.pts <- c(1:length(pune.ts))
+time.pts= c(time.pts- min(time.pts))/max(time.pts)
+
+##Splines Method for Trend Estimation
+gam.fit.so = gam(pune.ts~s(time.pts))
+pune.so.fit.gam = ts(fitted(gam.fit.so), start=2020, freq=365)
+
+ts.plot(pune.ts,ylab="SO2", main="SO2 Trend")
+lines(pune.so.fit.gam,lwd=2,col="red")
+
+#Not like the others: Asansol, Bhilai, Chennai, Mangalore, Mumbai, Nashik, Puducherry,Visakhapatnam
+```
+
+
+
+#PM
+```{r}
+ts.plot(Agartala$PM2_5, main='Agartala')
+ts.plot(Asansol$PM2_5, main='Asansol')
+ts.plot(Belgaum$PM2_5, main='Belgaum')
+ts.plot(Bengaluru$PM2_5, main='Bengaluru')
+ts.plot(Bhilai$PM2_5, main='Bhilai')
+ts.plot(Chennai$PM2_5, main='Chennai')
+ts.plot(Coimbatore$PM2_5, main='Coimbatore')
+ts.plot(Hyderabad$PM2_5, main='Hyderabad')
+ts.plot(Indore$PM2_5, main='Indore')
+ts.plot(Kolkata$PM2_5, main='Kolkata')
+ts.plot(Mangalore$PM2_5, main='Mangalore')
+ts.plot(Mumbai$PM2_5, main='Mumbai')
+ts.plot(Mysuru$PM2_5, main='Mysuru')
+ts.plot(Nashik$PM2_5, main='Nashik')
+ts.plot(Prayagraj$PM2_5, main='Prayagraj')
+ts.plot(Puducherry$PM2_5, main='Puducherry')
+ts.plot(Pune$PM2_5, main='Pune')
+ts.plot(Vijaywada$PM2_5, main='Vijaywada')
+ts.plot(Visakhapatnam$PM2_5, main='Visakhapatnam')
+
+#Trend plot for Pune
+pune.ts <- ts(Pune$PM2_5, start=2020, freq=365)
+time.pts <- c(1:length(pune.ts))
+time.pts= c(time.pts- min(time.pts))/max(time.pts)
+
+##Splines Method for Trend Estimation
+gam.fit.pm = gam(pune.ts~s(time.pts))
+pune.pm.fit.gam = ts(fitted(gam.fit.pm), start=2020, freq=365)
+
+ts.plot(pune.ts,ylab="PM", main="PM Trend")
+lines(pune.pm.fit.gam,lwd=2,col="red")
+
+#Not like the others: Asansol
+```
+
+#Desert
+#CO
+```{r}
+ts.plot(Agra$CO, main='Agra')
+ts.plot(Aurangabad$CO, main='Aurangabad')
+ts.plot(Faridabad$CO, main='Faridabad')
+ts.plot(Jaipur$CO, main='Jaipur')
+ts.plot(Jodhpur$CO, main='Jodhpur')
+ts.plot(Kota$CO, main='Kota')
+ts.plot(Solapur$CO, main='Solapur')
+```
+
+
+#NO2
+```{r}
+ts.plot(Agra$NO2, main='Agra')
+ts.plot(Aurangabad$NO2, main='Aurangabad')
+ts.plot(Faridabad$NO2, main='Faridabad')
+ts.plot(Jaipur$NO2, main='Jaipur')
+ts.plot(Jodhpur$NO2, main='Jodhpur')
+ts.plot(Kota$NO2, main='Kota')
+ts.plot(Solapur$NO2, main='Solapur')
+```
+
+
+#SO2
+```{r}
+ts.plot(Agra$SO2, main='Agra')
+ts.plot(Aurangabad$SO2, main='Aurangabad')
+ts.plot(Faridabad$SO2, main='Faridabad')
+ts.plot(Jaipur$SO2, main='Jaipur')
+ts.plot(Jodhpur$SO2, main='Jodhpur')
+ts.plot(Kota$SO2, main='Kota')
+ts.plot(Solapur$SO2, main='Solapur')
+
+#Not like the others: Kota
+```
+
+
+#PM
+```{r}
+ts.plot(Agra$PM2_5, main='Agra')
+ts.plot(Aurangabad$PM2_5, main='Aurangabad')
+ts.plot(Faridabad$PM2_5, main='Faridabad')
+ts.plot(Jaipur$PM2_5, main='Jaipur')
+ts.plot(Jodhpur$PM2_5, main='Jodhpur')
+ts.plot(Kota$PM2_5, main='Kota')
+ts.plot(Solapur$PM2_5, main='Solapur')
+```
+
+#Subtropic
+#CO
+```{r}
+ts.plot(Aizwal$CO, main='Aizwal')
+ts.plot(Amritsar$CO, main='Amritsar')
+ts.plot(Bareilly$CO, main='Bareilly')
+ts.plot(Chandigarh$CO, main='Chandigarh')
+ts.plot(Dehradun$CO, main='Dehradun')
+ts.plot(Delhi$CO, main='Delhi')
+ts.plot(Ghaziabad$CO, main='Ghaziabad')
+ts.plot(Gorakhpur$CO, main='Gorakhpur')
+ts.plot(Imphal$CO, main='Imphal')
+ts.plot(Jalandhar$CO, main='Jalandhar')
+ts.plot(Ludhiana$CO, main='Ludhiana')
+ts.plot(Meerut$CO, main='Meerut')
+ts.plot(Moradabad$CO, main='Moradabad')
+ts.plot(Patna$CO, main='Patna')
+ts.plot(Shillong$CO, main='Shillong')
+ts.plot(Srinagar$CO, main='Srinagar')
+ts.plot(Varanasi$CO, main='Varanasi')
+
+#Not like the others: Aizwal (low variance/low values overall), Shillong
+```
+
+
+#NO2
+```{r}
+ts.plot(Aizwal$NO2, main='Aizwal')
+ts.plot(Amritsar$NO2, main='Amritsar')
+ts.plot(Bareilly$NO2, main='Bareilly')
+ts.plot(Chandigarh$NO2, main='Chandigarh')
+ts.plot(Dehradun$NO2, main='Dehradun')
+ts.plot(Delhi$NO2, main='Delhi')
+ts.plot(Ghaziabad$NO2, main='Ghaziabad')
+ts.plot(Gorakhpur$NO2, main='Gorakhpur')
+ts.plot(Imphal$NO2, main='Imphal')
+ts.plot(Jalandhar$NO2, main='Jalandhar')
+ts.plot(Ludhiana$NO2, main='Ludhiana')
+ts.plot(Meerut$NO2, main='Meerut')
+ts.plot(Moradabad$NO2, main='Moradabad')
+ts.plot(Patna$NO2, main='Patna')
+ts.plot(Shillong$NO2, main='Shillong')
+ts.plot(Srinagar$NO2, main='Srinagar')
+ts.plot(Varanasi$NO2, main='Varanasi')
+```
+
+
+#SO2
+```{r}
+ts.plot(Aizwal$SO2, main='Aizwal')
+ts.plot(Amritsar$SO2, main='Amritsar')
+ts.plot(Bareilly$SO2, main='Bareilly')
+ts.plot(Chandigarh$SO2, main='Chandigarh')
+ts.plot(Dehradun$SO2, main='Dehradun')
+ts.plot(Delhi$SO2, main='Delhi')
+ts.plot(Ghaziabad$SO2, main='Ghaziabad')
+ts.plot(Gorakhpur$SO2, main='Gorakhpur')
+ts.plot(Imphal$SO2, main='Imphal')
+ts.plot(Jalandhar$SO2, main='Jalandhar')
+ts.plot(Ludhiana$SO2, main='Ludhiana')
+ts.plot(Meerut$SO2, main='Meerut')
+ts.plot(Moradabad$SO2, main='Moradabad')
+ts.plot(Patna$SO2, main='Patna')
+ts.plot(Shillong$SO2, main='Shillong')
+ts.plot(Srinagar$SO2, main='Srinagar')
+ts.plot(Varanasi$SO2, main='Varanasi')
+
+#Many SO2 values aren't quite the same
+
+```
+
+
+#PM
+```{r}
+ts.plot(Aizwal$PM2_5, main='Aizwal')
+ts.plot(Amritsar$PM2_5, main='Amritsar')
+ts.plot(Bareilly$PM2_5, main='Bareilly')
+ts.plot(Chandigarh$PM2_5, main='Chandigarh')
+ts.plot(Dehradun$PM2_5, main='Dehradun')
+ts.plot(Delhi$PM2_5, main='Delhi')
+ts.plot(Ghaziabad$PM2_5, main='Ghaziabad')
+ts.plot(Gorakhpur$PM2_5, main='Gorakhpur')
+ts.plot(Imphal$PM2_5, main='Imphal')
+ts.plot(Jalandhar$PM2_5, main='Jalandhar')
+ts.plot(Ludhiana$PM2_5, main='Ludhiana')
+ts.plot(Meerut$PM2_5, main='Meerut')
+ts.plot(Moradabad$PM2_5, main='Moradabad')
+ts.plot(Patna$PM2_5, main='Patna')
+ts.plot(Shillong$PM2_5, main='Shillong')
+ts.plot(Srinagar$PM2_5, main='Srinagar')
+ts.plot(Varanasi$PM2_5, main='Varanasi')
+
+#Outlier in Ghaziabad
+#Srinagar not like others
+```
+#Meditteran
+#CO
+```{r}
+ts.plot(Bhopal$CO, main='Bhopal')
+ts.plot(Gwalior$CO, main='Gwalior')
+ts.plot(Jabalpur$CO, main='Jabalpur')
+ts.plot(Kanpur$CO, main='Kanpur')
+ts.plot(Lucknow$CO, main='Lucknow')
+```
+
+#NO2
+```{r}
+ts.plot(Bhopal$NO2, main='Bhopal')
+ts.plot(Gwalior$NO2, main='Gwalior')
+ts.plot(Jabalpur$NO2, main='Jabalpur')
+ts.plot(Kanpur$NO2, main='Kanpur')
+ts.plot(Lucknow$NO2, main='Lucknow')
+```
+
+#SO2
+```{r}
+ts.plot(Bhopal$SO2, main='Bhopal')
+ts.plot(Gwalior$SO2, main='Gwalior')
+ts.plot(Jabalpur$SO2, main='Jabalpur')
+ts.plot(Kanpur$SO2, main='Kanpur')
+ts.plot(Lucknow$SO2, main='Lucknow')
+```
+
+#PM
+```{r}
+ts.plot(Bhopal$PM2_5, main='Bhopal')
+ts.plot(Gwalior$PM2_5, main='Gwalior')
+ts.plot(Jabalpur$PM2_5, main='Jabalpur')
+ts.plot(Kanpur$PM2_5, main='Kanpur')
+ts.plot(Lucknow$PM2_5, main='Lucknow')
+```
+#Oceaninc Highland
+#CO
+```{r}
+ts.plot(Gangtok$CO, main='Gangtok')
+ts.plot(Kohima$CO, main='Kohima')
+
+```
+
+#NO2
+```{r}
+ts.plot(Gangtok$NO2, main='Gangtok')
+ts.plot(Kohima$NO2, main='Kohima')
+```
+
+#SO2
+```{r}
+ts.plot(Gangtok$SO2, main='Gangtok')
+ts.plot(Kohima$SO2, main='Kohima')
+```
+
+#PM
+```{r}
+ts.plot(Gangtok$PM2_5, main='Gangtok')
+ts.plot(Kohima$PM2_5, main='Kohima')
+```
+
+
+
+#Monsoon
+#CO
+```{r}
+ts.plot(Kochi$CO, main='Kochi')
+ts.plot(Kozhikode$CO, main='Kozhikode')
+ts.plot(Thiruvananthapuram$CO, main='Thiruvananthapuram')
+```
+
+#NO2
+```{r}
+ts.plot(Kochi$NO2, main='Kochi')
+ts.plot(Kozhikode$NO2, main='Kozhikode')
+ts.plot(Thiruvananthapuram$NO2, main='Thiruvananthapuram')
+```
+
+
+#SO2
+```{r}
+ts.plot(Kochi$SO2, main='Kochi')
+ts.plot(Kozhikode$SO2, main='Kozhikode')
+ts.plot(Thiruvananthapuram$SO2, main='Thiruvananthapuram')
+```
+
+
+#PM
+```{r}
+ts.plot(Kochi$PM2_5, main='Kochi')
+ts.plot(Kozhikode$PM2_5, main='Kozhikode')
+ts.plot(Thiruvananthapuram$PM2_5, main='Thiruvananthapuram')
+```
+#Reset dfs if needed
+```{r}
+#Savannah
+df_sav <- rbind(Agartala,Asansol,Belgaum,Bengaluru,Bhilai,Chennai,Coimbatore,Hyderabad,Indore,Kolkata,Mangalore,Mumbai,Mysuru,Nashik,Prayagraj,Puducherry,Pune,Vijaywada,Visakhapatnam)
+
+#Desert
+df_desert <- rbind(Agra,Aurangabad,Faridabad,Gandhinagar,Jaipur,Jodhpur,Kota,Solapur)
+
+#Subtropical
+df_subtrop <- rbind(Aizwal,Amritsar,Bareilly,Chandigarh,Dehradun,Delhi,Ghaziabad,Gorakhpur,Imphal,Jalandhar,Ludhiana,Meerut,Moradabad,Patna,Shillong,Srinagar,Varanasi)
+
+#Mediterran
+df_med <- rbind(Bhopal,Gwalior,Jabalpur,Kanpur,Lucknow)
+
+#Oceanic Highland
+df_highland <- rbind(Gangtok,Kohima)
+
+#Monsoon
+df_monsoon <- rbind(Kochi, Kozhikode, Thiruvananthapuram)
+```
+
+#Import Library
+```{r}
+library(zoo)
+library(lubridate)
+library(mgcv)
+library(TSA)
+library(dynlm)
+```
+
+
+
+#Aggregate city clusters by day
+```{r}
+#Savannah
+df_sav$Date <- strptime(as.character(df_sav$Date), "%Y-%m-%d")
+df_sav$Date <- format(df_sav$Date, "%Y-%m-%d")
+df_sav <- df_sav[,-1:-4]
+df_sav <- aggregate(x = cbind(df_sav$CO, df_sav$NO2, df_sav$SO2, df_sav$PM2_5), by = list(df_sav$Date), FUN = mean)
+colnames(df_sav) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Desert
+df_desert$Date <- strptime(as.character(df_desert$Date), "%Y-%m-%d")
+df_desert$Date <- format(df_desert$Date, "%Y-%m-%d")
+df_desert <- df_desert[,-1:-4]
+df_desert <- aggregate(x = cbind(df_desert$CO, df_desert$NO2, df_desert$SO2, df_desert$PM2_5), by = list(df_desert$Date), FUN = mean)
+colnames(df_desert) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Subtropic
+df_subtrop$Date <- strptime(as.character(df_subtrop$Date), "%Y-%m-%d")
+df_subtrop$Date <- format(df_subtrop$Date, "%Y-%m-%d")
+df_subtrop <- df_subtrop[,-1:-4]
+df_subtrop <- aggregate(x = cbind(df_subtrop$CO, df_subtrop$NO2, df_subtrop$SO2, df_subtrop$PM2_5), by = list(df_subtrop$Date), FUN = mean)
+colnames(df_subtrop) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Oceanic Highland
+df_highland$Date <- strptime(as.character(df_highland$Date), "%Y-%m-%d")
+df_highland$Date <- format(df_highland$Date, "%Y-%m-%d")
+df_highland <- df_highland[,-1:-4]
+df_highland <- aggregate(x = cbind(df_highland$CO, df_highland$NO2, df_highland$SO2, df_highland$PM2_5), by = list(df_highland$Date), FUN = mean)
+colnames(df_highland) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Mediterran
+df_med$Date <- strptime(as.character(df_med$Date), "%Y-%m-%d")
+df_med$Date <- format(df_med$Date, "%Y-%m-%d")
+df_med <- df_med[,-1:-4]
+df_med <- aggregate(x = cbind(df_med$CO, df_med$NO2, df_med$SO2, df_med$PM2_5), by = list(df_med$Date), FUN = mean)
+colnames(df_med) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Monsoon
+df_monsoon$Date <- strptime(as.character(df_monsoon$Date), "%Y-%m-%d")
+df_monsoon$Date <- format(df_monsoon$Date, "%Y-%m-%d")
+df_monsoon <- df_monsoon[,-1:-4]
+df_monsoon <- aggregate(x = cbind(df_monsoon$CO, df_monsoon$NO2, df_monsoon$SO2, df_monsoon$PM2_5), by = list(df_monsoon$Date), FUN = mean)
+colnames(df_monsoon) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+```
+
+
+#Exploratory Data Analysis
+
+#Savannah
+```{r}
+sav.co <- ts(df_sav$CO,start=2020, freq=365)
+sav.no <- ts(df_sav$NO2,start=2020, freq=365)
+sav.so <- ts(df_sav$SO2,start=2020, freq=365)
+sav.pm <- ts(df_sav$PM2_5,start=2020, freq=365)
+
+ts.plot(sav.co)
+ts.plot(sav.no)
+ts.plot(sav.so)
+ts.plot(sav.pm)
+```
+
+#Desert
+```{r}
+des.co <- ts(df_desert$CO,start=2020, freq=365)
+des.no <- ts(df_desert$NO2,start=2020, freq=365)
+des.so <- ts(df_desert$SO2,start=2020, freq=365)
+des.pm <- ts(df_desert$PM2_5,start=2020, freq=365)
+
+ts.plot(des.co)
+ts.plot(des.no)
+ts.plot(des.so)
+ts.plot(des.pm)
+```
+
+#Subtropical
+```{r}
+subtrop.co <- ts(df_subtrop$CO,start=2020, freq=365)
+subtrop.no <- ts(df_subtrop$NO2,start=2020, freq=365)
+subtrop.so <- ts(df_subtrop$SO2,start=2020, freq=365)
+subtrop.pm <- ts(df_subtrop$PM2_5,start=2020, freq=365)
+
+ts.plot(subtrop.co)
+ts.plot(subtrop.no)
+ts.plot(subtrop.so)
+ts.plot(subtrop.pm)
+```
+
+#Meditteran
+```{r}
+med.co <- ts(df_med$CO,start=2020, freq=365)
+med.no <- ts(df_med$NO2,start=2020, freq=365)
+med.so <- ts(df_med$SO2,start=2020, freq=365)
+med.pm <- ts(df_med$PM2_5,start=2020, freq=365)
+
+ts.plot(med.co)
+ts.plot(med.no)
+ts.plot(med.so)
+ts.plot(med.pm)
+```
+
+#Oceanic Highland
+```{r}
+highland.co <- ts(df_highland$CO,start=2020, freq=365)
+highland.no <- ts(df_highland$NO2,start=2020, freq=365)
+highland.so <- ts(df_highland$SO2,start=2020, freq=365)
+highland.pm <- ts(df_highland$PM2_5,start=2020, freq=365)
+
+ts.plot(highland.co)
+ts.plot(highland.no)
+ts.plot(highland.so)
+ts.plot(highland.pm)
+```
+
+#Monsoon
+```{r}
+monsoon.co <- ts(df_monsoon$CO,start=2020, freq=365)
+monsoon.no <- ts(df_monsoon$NO2,start=2020, freq=365)
+monsoon.so <- ts(df_monsoon$SO2,start=2020, freq=365)
+monsoon.pm <- ts(df_monsoon$PM2_5,start=2020, freq=365)
+
+ts.plot(monsoon.co)
+ts.plot(monsoon.no)
+ts.plot(monsoon.so)
+ts.plot(monsoon.pm)
+```
+
+#Trend and Seasonality Estimation
+
+#Savannah
+```{r}
+sav.time.pts <- c(1:length(sav.co))
+sav.time.pts= c(sav.time.pts- min(sav.time.pts))/max(sav.time.pts)
+
+##Splines Method for Trend Estimation
+#CO
+gam.fit.co = gam(sav.co~s(sav.time.pts))
+sav.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(sav.no~s(sav.time.pts))
+sav.no.fit.gam = ts(fitted(gam.fit.no))
+
+
+#SO2
+gam.fit.so = gam(sav.so~s(sav.time.pts))
+sav.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(sav.pm~s(sav.time.pts))
+sav.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots for Trend Estimation
+par(mfrow=c(2,2))
+ts.plot(df_sav$CO,ylab="CO")
+lines(sav.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_sav$NO2,ylab="NO2")
+lines(sav.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_sav$SO2,ylab="SO2")
+lines(sav.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_sav$PM2_5,ylab="PM")
+lines(sav.pm.fit.gam,lwd=2,col="red")
+
+#MAPE for Each model
+#CO
+mean(abs(df_sav$CO-sav.co.fit.gam)/df_sav$CO)
+#NO2
+mean(abs(df_sav$NO2-sav.no.fit.gam)/df_sav$NO2)
+#SO2
+mean(abs(df_sav$SO2-sav.so.fit.gam)/df_sav$SO2)
+#PM
+mean(abs(df_sav$PM2_5-sav.pm.fit.gam)/df_sav$PM2_5)
+
+```
+```{r}
+
+#Trend and Seasonality Estimation
+
+#Parametric
+x1<-sav.time.pts
+x2<-sav.time.pts**2
+
+#CO
+modp.co<-lm(sav.co~x1+x2+season(sav.co))
+
+#NO2
+modp.no<-lm(sav.no~x1+x2+season(sav.no))
+
+#SO2
+modp.so<-lm(sav.so~x1+x2+season(sav.so))
+
+#PM
+modp.pm<-lm(sav.pm~x1+x2+season(sav.pm))
+#Plots for Trend and Seasonality Estimation - Parametric Model
+par(mfrow=c(2,2))
+ts.plot(df_sav$CO,ylab="CO")
+lines(fitted(modp.co),lwd=2,col="red")
+
+ts.plot(df_sav$NO2,ylab="NO2")
+lines(fitted(modp.no),lwd=2,col="red")
+
+ts.plot(df_sav$SO2,ylab="SO2")
+lines(fitted(modp.so),lwd=2,col="red")
+
+ts.plot(df_sav$PM2_5,ylab="PM")
+lines(fitted(modp.pm),lwd=2,col="red")
+
+
+#Nonparametric
+#CO
+modelnp.co<-gam(sav.co~s(sav.time.pts)+season(sav.co))
+
+#NO2
+modelnp.no<-gam(sav.no~s(sav.time.pts)+season(sav.no))
+
+#SO2
+modelnp.so<-gam(sav.so~s(sav.time.pts)+season(sav.so))
+
+#PM
+modelnp.pm<-gam(sav.pm~s(sav.time.pts)+season(sav.pm))
+
+#Plots for Trend and Seasonality Estimation - Non-Parametric Model
+par(mfrow=c(2,2))
+ts.plot(df_sav$CO,ylab="CO")
+lines(fitted(modelnp.co),lwd=2,col="red")
+
+ts.plot(df_sav$NO2,ylab="NO2")
+lines(fitted(modelnp.no),lwd=2,col="red")
+
+ts.plot(df_sav$SO2,ylab="SO2")
+lines(fitted(modelnp.so),lwd=2,col="red")
+
+ts.plot(df_sav$PM2_5,ylab="PM")
+lines(fitted(modelnp.pm),lwd=2,col="red")
+
+#MAPE Parametric
+#CO
+mean(abs(df_sav$CO-fitted(modp.co))/df_sav$CO)
+#NO2
+mean(abs(df_sav$NO2-fitted(modp.no))/df_sav$NO2)
+#SO2
+mean(abs(df_sav$SO2-fitted(modp.so))/df_sav$SO2)
+#PM
+mean(abs(df_sav$PM2_5-fitted(modp.pm))/df_sav$PM2_5)
+
+#MAPE Non-Parametric
+#CO
+mean(abs(df_sav$CO-fitted(modelnp.co))/df_sav$CO)
+#NO2
+mean(abs(df_sav$NO2-fitted(modelnp.no))/df_sav$NO2)
+#SO2
+mean(abs(df_sav$SO2-fitted(modelnp.so))/df_sav$SO2)
+#PM
+mean(abs(df_sav$PM2_5-fitted(modelnp.pm))/df_sav$PM2_5)
+
+```
+
+
+
+#Desert
+```{r}
+des.time.pts <- c(1:length(des.co))
+des.time.pts= c(des.time.pts- min(des.time.pts))/max(des.time.pts)
+
+#CO
+gam.fit.co = gam(des.co~s(des.time.pts))
+des.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(des.no~s(des.time.pts))
+des.no.fit.gam = ts(fitted(gam.fit.no))
+
+
+#SO2
+gam.fit.so = gam(des.so~s(des.time.pts))
+des.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(des.pm~s(des.time.pts))
+des.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots
+par(mfrow=c(2,2))
+ts.plot(df_desert$CO,ylab="CO")
+lines(des.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_desert$NO2,ylab="SO2")
+lines(des.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_desert$SO2,ylab="SO2")
+lines(des.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_desert$PM2_5,ylab="SO2")
+lines(des.pm.fit.gam,lwd=2,col="red")
+```
+
+#Subtropical
+```{r}
+sub.time.pts <- c(1:length(subtrop.co))
+sub.time.pts= c(sub.time.pts- min(sub.time.pts))/max(sub.time.pts)
+
+##Splines Method for Trend Estimation
+#CO
+gam.fit.co = gam(subtrop.co~s(sub.time.pts))
+sub.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(subtrop.no~s(sub.time.pts))
+sub.no.fit.gam = ts(fitted(gam.fit.no))
+
+
+#SO2
+gam.fit.so = gam(subtrop.so~s(sub.time.pts))
+sub.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(subtrop.pm~s(sub.time.pts))
+sub.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots
+par(mfrow=c(2,2))
+ts.plot(df_subtrop$CO,ylab="CO")
+lines(sub.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_subtrop$NO2,ylab="SO2")
+lines(sub.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_subtrop$SO2,ylab="SO2")
+lines(sub.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_subtrop$PM2_5,ylab="SO2")
+lines(sub.pm.fit.gam,lwd=2,col="red")
+```
+
+#Mediterran
+```{r}
+med.time.pts <- c(1:length(med.co))
+med.time.pts= c(med.time.pts- min(med.time.pts))/max(med.time.pts)
+
+##Splines Method for Trend Estimation
+#CO
+gam.fit.co = gam(med.co~s(med.time.pts))
+med.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(med.no~s(med.time.pts))
+med.no.fit.gam = ts(fitted(gam.fit.no))
+
+#SO2
+gam.fit.so = gam(med.so~s(med.time.pts))
+med.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(med.pm~s(med.time.pts))
+med.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots
+par(mfrow=c(2,2))
+ts.plot(df_med$CO,ylab="CO")
+lines(med.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_med$NO2,ylab="SO2")
+lines(med.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_med$SO2,ylab="SO2")
+lines(med.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_med$PM2_5,ylab="SO2")
+lines(med.pm.fit.gam,lwd=2,col="red")
+```
+
+#Highland
+```{r}
+highland.time.pts <- c(1:length(highland.co))
+highland.time.pts= c(highland.time.pts- min(highland.time.pts))/max(highland.time.pts)
+
+##Splines Method for Trend Estimation
+#CO
+gam.fit.co = gam(highland.co~s(highland.time.pts))
+highland.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(highland.no~s(highland.time.pts))
+highland.no.fit.gam = ts(fitted(gam.fit.no))
+
+
+#SO2
+gam.fit.so = gam(highland.so~s(highland.time.pts))
+highland.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(highland.pm~s(sav.time.pts))
+highland.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots
+par(mfrow=c(2,2))
+ts.plot(df_highland$CO,ylab="CO")
+lines(highland.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_highland$NO2,ylab="SO2")
+lines(highland.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_highland$SO2,ylab="SO2")
+lines(highland.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_highland$PM2_5,ylab="SO2")
+lines(highland.pm.fit.gam,lwd=2,col="red")
+```
+
+#Monsoon
+```{r}
+monsoon.time.pts <- c(1:length(monsoon.co))
+monsoon.time.pts= c(monsoon.time.pts- min(monsoon.time.pts))/max(monsoon.time.pts)
+
+##Splines Method for Trend Estimation
+#CO
+gam.fit.co = gam(monsoon.co~s(monsoon.time.pts))
+monsoon.co.fit.gam = ts(fitted(gam.fit.co))
+
+#NO2
+gam.fit.no = gam(monsoon.no~s(monsoon.time.pts))
+monsoon.no.fit.gam = ts(fitted(gam.fit.no))
+
+
+#SO2
+gam.fit.so = gam(monsoon.so~s(monsoon.time.pts))
+monsoon.so.fit.gam = ts(fitted(gam.fit.so))
+
+#PM
+gam.fit.pm = gam(monsoon.pm~s(monsoon.time.pts))
+monsoon.pm.fit.gam = ts(fitted(gam.fit.pm))
+
+#Plots
+par(mfrow=c(2,2))
+ts.plot(df_monsoon$CO,ylab="CO")
+lines(monsoon.co.fit.gam,lwd=2,col="red")
+
+ts.plot(df_monsoon$NO2,ylab="SO2")
+lines(monsoon.no.fit.gam,lwd=2,col="red")
+
+ts.plot(df_monsoon$SO2,ylab="SO2")
+lines(monsoon.so.fit.gam,lwd=2,col="red")
+
+ts.plot(df_monsoon$PM2_5,ylab="SO2")
+lines(monsoon.pm.fit.gam,lwd=2,col="red")
+```
+
+
+
+
+
+
+
+
+

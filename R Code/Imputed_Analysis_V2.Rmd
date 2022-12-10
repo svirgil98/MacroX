@@ -1,0 +1,1428 @@
+rm(list=ls())
+#Import Libraries
+```{r}
+library(data.table)
+library(vars)
+library(xts)
+library(stats)
+library(tseries)
+library(aod)
+library(mgcv)
+library(lubridate)
+library(dplyr)
+library(TSA)
+library(dynlm)
+library(tidyverse)
+library(leaps)
+```
+
+#Read Imputed Data
+```{r}
+df_sav <-read.csv('Tropical Savanna_OPEN_WEATHER_data.txt',header=TRUE)
+df_desert <-read.csv('Mid-Latitude Steppe and Desert_OPEN_WEATHER_data.txt',header=TRUE)
+df_subtrop <-read.csv('Humid Subtropical_OPEN_WEATHER_data.txt',header=TRUE)
+df_med <-read.csv('Mediterran_OPEN_WEATHER_data.txt',header=TRUE)
+df_highland <-read.csv('Oceanic Subtropical Highland_OPEN_WEATHER_data.txt',header=TRUE)
+df_monsoon <-read.csv('Tropical Monsoon_OPEN_WEATHER_data.txt',header=TRUE)
+```
+
+#Read Unemployment Data
+```{r}
+#Load Unemployment Data
+Agartala_unemp <- read.csv('unemployment_IN_Agartala.csv', head = TRUE)
+Agra_unemp <- read.csv('unemployment_IN_Agra.csv', head = TRUE)
+Aizwal_unemp <- read.csv('unemployment_IN_Aizwal.csv', head = TRUE)
+Amritsar_unemp <- read.csv('unemployment_IN_Amritsar.csv', head = TRUE)
+Asansol_unemp <- read.csv('unemployment_IN_Asansol.csv', head = TRUE)
+Aurangabad_unemp <- read.csv('unemployment_IN_Aurangabad.csv', head = TRUE)
+Bareilly_unemp <- read.csv('unemployment_IN_Bareilly.csv', head = TRUE)
+Belgaum_unemp <- read.csv('unemployment_IN_Belgaum.csv', head = TRUE)
+Bengaluru_unemp <- read.csv('unemployment_IN_Bengaluru.csv', head = TRUE)
+Bhilai_unemp <- read.csv('unemployment_IN_Bhilai.csv', head = TRUE)
+Bhopal_unemp <- read.csv('unemployment_IN_Bhopal.csv', head = TRUE)
+Chandigarh_unemp<- read.csv('unemployment_IN_Chandigarh.csv', head = TRUE)
+Chennai_unemp <- read.csv('unemployment_IN_Chennai.csv', head = TRUE)
+Coimbatore_unemp <- read.csv('unemployment_IN_Coimbatore.csv', head = TRUE)
+Dehradun_unemp <- read.csv('unemployment_IN_Dehradun.csv', head = TRUE)
+Delhi_unemp <- read.csv('unemployment_IN_Delhi.csv', head = TRUE)
+Faridabad_unemp <- read.csv('unemployment_IN_Faridabad.csv', head = TRUE)
+Gandhinagar_unemp<- read.csv('unemployment_IN_Gandhinagar.csv', head = TRUE)
+Gangtok_unemp <- read.csv('unemployment_IN_Gangtok.csv', head = TRUE)
+Ghaziabad_unemp <- read.csv('unemployment_IN_Ghaziabad.csv', head = TRUE)
+Gorakhpur_unemp <- read.csv('unemployment_IN_Gorakhpur.csv', head = TRUE)
+Gwalior_unemp <- read.csv('unemployment_IN_Gwalior.csv', head = TRUE)
+Hyderabad_unemp <- read.csv('unemployment_IN_Hyderabad.csv', head = TRUE)
+Imphal_unemp <- read.csv('unemployment_IN_Imphal.csv', head = TRUE)
+Indore_unemp<- read.csv('unemployment_IN_Indore.csv', head = TRUE)
+Jabalpur_unemp <- read.csv('unemployment_IN_Jabalpur.csv', head = TRUE)
+Jaipur_unemp <- read.csv('unemployment_IN_Jaipur.csv', head = TRUE)
+Jalandhar_unemp <- read.csv('unemployment_IN_Jalandhar.csv', head = TRUE)
+Jodhpur_unemp<- read.csv('unemployment_IN_Jodhpur.csv', head = TRUE)
+Kanpur_unemp <- read.csv('unemployment_IN_Kanpur.csv', head = TRUE)
+Kochi_unemp <- read.csv('unemployment_IN_Kochi.csv', head = TRUE)
+Kohima_unemp<- read.csv('unemployment_IN_Kohima.csv', head = TRUE)
+Kolkata_unemp <- read.csv('unemployment_IN_Kolkata.csv', head = TRUE)
+Kota_unemp <- read.csv('unemployment_IN_Kota.csv', head = TRUE)
+Kozhikode_unemp <- read.csv('unemployment_IN_Kozhikode.csv', head = TRUE)
+Lucknow_unemp <- read.csv('unemployment_IN_Lucknow.csv', head = TRUE)
+Ludhiana_unemp <- read.csv('unemployment_IN_Ludhiana.csv', head = TRUE)
+Mangalore_unemp <- read.csv('unemployment_IN_Mangalore.csv', head = TRUE)
+Meerut_unemp <- read.csv('unemployment_IN_Meerut.csv', head = TRUE)
+Moradabad_unemp <- read.csv('unemployment_IN_Moradabad.csv', head = TRUE)
+Mumbai_unemp <- read.csv('unemployment_IN_Mumbai.csv', head = TRUE)
+Mysuru_unemp <- read.csv('unemployment_IN_Mysuru.csv', head = TRUE)
+Nashik_unemp <- read.csv('unemployment_IN_Nashik.csv', head = TRUE)
+Patna_unemp <- read.csv('unemployment_IN_Patna.csv', head = TRUE)
+Prayagraj_unemp <- read.csv('unemployment_IN_Prayagraj.csv', head = TRUE)
+Puducherry_unemp <- read.csv('unemployment_IN_Puducherry.csv', head = TRUE)
+Pune_unemp<- read.csv('unemployment_IN_Pune.csv', head = TRUE)
+Shillong_unemp <- read.csv('unemployment_IN_Shillong.csv', head = TRUE)
+Solapur_unemp <- read.csv('unemployment_IN_Solapur.csv', head = TRUE)
+Srinagar_unemp <- read.csv('unemployment_IN_Srinagar.csv', head = TRUE)
+Thiruvananthapuram_unemp <- read.csv('unemployment_IN_Thiruvananthapuram.csv', head = TRUE)
+Varanasi_unemp <- read.csv('unemployment_IN_Varanasi.csv', head = TRUE)
+Vijaywada_unemp <- read.csv('unemployment_IN_Vijayawada.csv', head = TRUE)
+Visakhapatnam_unemp <- read.csv('unemployment_IN_Visakhapatnam.csv', head = TRUE)
+df <- read.csv('cluster.csv', head = TRUE)
+```
+
+```{r}
+#Savannah
+sav_unemp <- rbind(Agartala_unemp,Asansol_unemp,Belgaum_unemp,Bengaluru_unemp,Bhilai_unemp,Chennai_unemp,Coimbatore_unemp,Hyderabad_unemp,Indore_unemp,Kolkata_unemp,Mangalore_unemp,Mumbai_unemp,Mysuru_unemp,Nashik_unemp,Prayagraj_unemp,Puducherry_unemp,Pune_unemp,Vijaywada_unemp,Visakhapatnam_unemp)
+
+#Desert
+desert_unemp <- rbind(Agra_unemp,Aurangabad_unemp,Faridabad_unemp,Gandhinagar_unemp,Jaipur_unemp,Jodhpur_unemp,Kota_unemp,Solapur_unemp)
+
+#Subtropical
+subtrop_unemp <- rbind(Aizwal_unemp,Amritsar_unemp,Bareilly_unemp,Chandigarh_unemp,Dehradun_unemp,Delhi_unemp,Ghaziabad_unemp,Gorakhpur_unemp,Imphal_unemp,Jalandhar_unemp,Ludhiana_unemp,Meerut_unemp,Moradabad_unemp,Patna_unemp,Shillong_unemp,Srinagar_unemp,Varanasi_unemp)
+
+#Mediterran
+med_unemp <- rbind(Bhopal_unemp,Gwalior_unemp,Jabalpur_unemp,Kanpur_unemp,Lucknow_unemp)
+
+#Oceanic Highland
+highland_unemp <- rbind(Gangtok_unemp,Kohima_unemp)
+
+#Monsoon
+monsoon_unemp <- rbind(Kochi_unemp, Kozhikode_unemp, Thiruvananthapuram_unemp)
+```
+
+#Aggregate Data
+#Savannah
+```{r}
+sav_unemp <- sav_unemp[,-1]
+sav_unemp <- sav_unemp[,-2]
+sav_unemp <- sav_unemp[,-3:-4]
+colnames(sav_unemp) <- c("Date", "Unemployment_Rate")
+
+sav_unemp <- aggregate(x= sav_unemp$Unemployment_Rate, by = list(sav_unemp$Date), FUN=mean)
+colnames(sav_unemp) <- c("Date", "Unemployment_Rate")
+
+sav_unemp$month <- strptime(as.character(sav_unemp$Date), "%m-%d-%y")
+sav_unemp$month <-  format(sav_unemp$month, "%Y-%m")
+sav_unemp <- sav_unemp[,-1]
+
+sav_unemp <- sav_unemp[order(sav_unemp$month),]
+
+row.names(sav_unemp) <- NULL
+
+#Desert
+
+desert_unemp <- desert_unemp[,-1]
+desert_unemp <- desert_unemp[,-2]
+desert_unemp <- desert_unemp[,-3:-4]
+colnames(desert_unemp) <- c("Date", "Unemployment_Rate")
+
+desert_unemp <- aggregate(x= desert_unemp$Unemployment_Rate, by = list(desert_unemp$Date), FUN=mean)
+colnames(desert_unemp) <- c("Date", "Unemployment_Rate")
+
+desert_unemp$month <- strptime(as.character(desert_unemp$Date), "%m-%d-%y")
+desert_unemp$month <-  format(desert_unemp$month, "%Y-%m")
+desert_unemp <- desert_unemp[,-1]
+
+desert_unemp <- desert_unemp[order(desert_unemp$month),]
+row.names(desert_unemp) <- NULL
+
+#Subtropical
+
+subtrop_unemp <- subtrop_unemp[,-1]
+subtrop_unemp <- subtrop_unemp[,-2]
+subtrop_unemp <- subtrop_unemp[,-3:-4]
+colnames(subtrop_unemp) <- c("Date", "Unemployment_Rate")
+
+subtrop_unemp <- aggregate(x= subtrop_unemp$Unemployment_Rate, by = list(subtrop_unemp$Date), FUN=mean)
+colnames(subtrop_unemp) <- c("Date", "Unemployment_Rate")
+
+subtrop_unemp$month <- strptime(as.character(subtrop_unemp$Date), "%m-%d-%y")
+subtrop_unemp$month <-  format(subtrop_unemp$month, "%Y-%m")
+subtrop_unemp <- subtrop_unemp[,-1]
+
+subtrop_unemp <- subtrop_unemp[order(subtrop_unemp$month),]
+row.names(subtrop_unemp) <- NULL
+
+med_unemp <- med_unemp[,-1]
+med_unemp <- med_unemp[,-2]
+med_unemp <- med_unemp[,-3:-4]
+colnames(med_unemp) <- c("Date", "Unemployment_Rate")
+
+med_unemp <- aggregate(x= med_unemp$Unemployment_Rate, by = list(med_unemp$Date), FUN=mean)
+colnames(med_unemp) <- c("Date", "Unemployment_Rate")
+
+med_unemp$month <- strptime(as.character(med_unemp$Date), "%m-%d-%y")
+med_unemp$month <-  format(med_unemp$month, "%Y-%m")
+med_unemp <- med_unemp[,-1]
+
+med_unemp <- med_unemp[order(med_unemp$month),]
+row.names(med_unemp) <- NULL
+
+#Oceanic Highland
+
+highland_unemp <- highland_unemp[,-1]
+highland_unemp <- highland_unemp[,-2]
+highland_unemp <- highland_unemp[,-3:-4]
+colnames(highland_unemp) <- c("Date", "Unemployment_Rate")
+
+highland_unemp <- aggregate(x= highland_unemp$Unemployment_Rate, by = list(highland_unemp$Date), FUN=mean)
+colnames(highland_unemp) <- c("Date", "Unemployment_Rate")
+
+highland_unemp$month <- strptime(as.character(highland_unemp$Date), "%m-%d-%y")
+highland_unemp$month <-  format(highland_unemp$month, "%Y-%m")
+highland_unemp <- highland_unemp[,-1]
+
+highland_unemp <- highland_unemp[order(highland_unemp$month),]
+row.names(highland_unemp) <- NULL
+
+#Monsoon
+
+monsoon_unemp <- monsoon_unemp[,-1]
+monsoon_unemp <- monsoon_unemp[,-2]
+monsoon_unemp<- monsoon_unemp[,-3:-4]
+colnames(monsoon_unemp) <- c("Date", "Unemployment_Rate")
+
+monsoon_unemp <- aggregate(x= monsoon_unemp$Unemployment_Rate, by = list(monsoon_unemp$Date), FUN=mean)
+colnames(monsoon_unemp) <- c("Date", "Unemployment_Rate")
+
+monsoon_unemp$month <- strptime(as.character(monsoon_unemp$Date), "%m-%d-%y")
+monsoon_unemp$month <-  format(monsoon_unemp$month, "%Y-%m")
+monsoon_unemp <- monsoon_unemp[,-1]
+
+monsoon_unemp<- monsoon_unemp[order(monsoon_unemp$month),]
+row.names(monsoon_unemp) <- NULL
+
+```
+
+
+#Aggregate Imputed data by month to match Unemployment Data
+```{r}
+#Remove Unnecessary Columns
+df_sav <- df_sav[,-1]
+df_desert <- df_desert[,-1]
+df_subtrop <- df_subtrop[,-1]
+df_med <- df_med[,-1]
+df_highland <- df_highland[,-1]
+df_monsoon <- df_monsoon [,-1]
+
+#Rename Columns
+colnames(df_sav) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+colnames(df_desert ) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+colnames(df_subtrop) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+colnames(df_med) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+colnames(df_highland) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+colnames(df_monsoon) <- c("DATE", "CO", "NO2", "SO2", "PM2_5")
+
+#Get monthly date Savannah
+df_sav$Date <-  strptime(as.character(df_sav$DATE), "%Y-%m-%d")
+df_sav$month <-  format(df_sav$Date, "%Y-%m")
+df_sav <- df_sav[,-1]
+
+#Aggregate by month Savannah
+df_sav <- aggregate(x = cbind(df_sav$CO, df_sav$NO2, df_sav$SO2, df_sav$PM2_5), by = list(df_sav$month), FUN = mean)
+colnames(df_sav) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_sav <- df_sav[-55,]
+
+#Get monthly date Desert
+df_desert$Date <-  strptime(as.character(df_desert$DATE), "%Y-%m-%d")
+df_desert$month <-  format(df_desert$Date, "%Y-%m")
+df_desert <- df_desert[,-1]
+
+#Aggregate by month Savannah
+df_desert <- aggregate(x = cbind(df_desert$CO, df_desert$NO2, df_desert$SO2, df_desert$PM2_5), by = list(df_desert$month), FUN = mean)
+colnames(df_desert) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_desert <- df_desert[-55,]
+
+#Get monthly date Subtrop
+df_subtrop$Date <-  strptime(as.character(df_subtrop$DATE), "%Y-%m-%d")
+df_subtrop$month <-  format(df_subtrop$Date, "%Y-%m")
+df_subtrop <- df_subtrop[,-1]
+
+#Aggregate by month Subtrop
+df_subtrop <- aggregate(x = cbind(df_subtrop$CO, df_subtrop$NO2, df_subtrop$SO2, df_subtrop$PM2_5), by = list(df_subtrop$month), FUN = mean)
+colnames(df_subtrop) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_subtrop <- df_subtrop[-55,]
+
+#Get monthly date Med
+df_med$Date <-  strptime(as.character(df_med$DATE), "%Y-%m-%d")
+df_med$month <-  format(df_med$Date, "%Y-%m")
+df_med <- df_med[,-1]
+
+#Aggregate by month Med
+df_med <- aggregate(x = cbind(df_med$CO, df_med$NO2, df_med$SO2, df_med$PM2_5), by = list(df_med$month), FUN = mean)
+colnames(df_med) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_med <- df_med[-55,]
+
+#Get monthly date Highland
+df_highland$Date <-  strptime(as.character(df_highland$DATE), "%Y-%m-%d")
+df_highland$month <-  format(df_highland$Date, "%Y-%m")
+df_highland <- df_highland[,-1]
+
+#Aggregate by month Med
+df_highland <- aggregate(x = cbind(df_highland$CO, df_highland$NO2, df_highland$SO2, df_highland$PM2_5), by = list(df_highland$month), FUN = mean)
+colnames(df_highland) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_highland <- df_highland[-55,]
+
+#Get monthly date Monsoon
+df_monsoon$Date <-  strptime(as.character(df_monsoon$DATE), "%Y-%m-%d")
+df_monsoon$month <-  format(df_monsoon$Date, "%Y-%m")
+df_monsoon <- df_monsoon[,-1]
+
+#Aggregate by month Monsoon
+df_monsoon <- aggregate(x = cbind(df_monsoon$CO, df_monsoon$NO2, df_monsoon$SO2, df_monsoon$PM2_5), by = list(df_monsoon$month), FUN = mean)
+colnames(df_monsoon) <- c("month", "CO", "NO2", "SO2", "PM2_5")
+df_monsoon <- df_monsoon[-55,]
+```
+
+#Align Unemployment Dates With Emission's Dates
+```{r}
+sav_unemp <- sav_unemp[25:78,]
+desert_unemp <- desert_unemp[25:78,]
+subtrop_unemp <- subtrop_unemp[25:78,]
+med_unemp <- med_unemp[25:78,]
+highland_unemp <- highland_unemp[25:78,]
+monsoon_unemp <- monsoon_unemp[25:78,]
+```
+
+#Merge Emissions and Unemployment Data
+```{r}
+sav_full <- merge(df_sav,sav_unemp,by='month')
+desert_full <- merge(df_desert,desert_unemp,by='month')
+med_full <- merge(df_med,med_unemp,by='month')
+subtrop_full <- merge(df_subtrop,subtrop_unemp,by='month')
+highland_full <- merge(df_highland,highland_unemp,by='month')
+monsoon_full <- merge(df_monsoon,monsoon_unemp,by='month')
+```
+
+#Aggregate to Quarterly Data
+```{r}
+library(lubridate)
+#Savannah
+sav_full$month <- as.Date(paste0(sav_full$month, "-01"))
+sav_full$month <- as.Date(sav_full$month, format='%Y-%m-%d')
+sav_full$Quarter <- floor_date(sav_full$month, 'quarter')
+
+sav_full <- aggregate(x = cbind(sav_full$CO, sav_full$NO2, sav_full$SO2, sav_full$PM2_5,sav_full$Unemployment_Rate), by = list(sav_full$Quarter), FUN = mean)
+colnames(sav_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+
+#Desert
+desert_full$month <- as.Date(paste0(desert_full$month, "-01"))
+desert_full$month <- as.Date(desert_full$month, format='%Y-%m-%d')
+desert_full$Quarter <- floor_date(desert_full$month, 'quarter')
+
+desert_full <- aggregate(x = cbind(desert_full$CO, desert_full$NO2, desert_full$SO2, desert_full$PM2_5,desert_full$Unemployment_Rate), by = list(desert_full$Quarter), FUN = mean)
+colnames(desert_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+
+#Subtrop
+subtrop_full$month <- as.Date(paste0(subtrop_full$month, "-01"))
+subtrop_full$month <- as.Date(subtrop_full$month, format='%Y-%m-%d')
+subtrop_full$Quarter <- floor_date(subtrop_full$month, 'quarter')
+
+subtrop_full <- aggregate(x = cbind(subtrop_full$CO, subtrop_full$NO2, subtrop_full$SO2, subtrop_full$PM2_5,subtrop_full$Unemployment_Rate), by = list(subtrop_full$Quarter), FUN = mean)
+colnames(subtrop_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+
+#Med
+med_full$month <- as.Date(paste0(med_full$month, "-01"))
+med_full$month <- as.Date(med_full$month, format='%Y-%m-%d')
+med_full$Quarter <- floor_date(med_full$month, 'quarter')
+
+med_full <- aggregate(x = cbind(med_full$CO, med_full$NO2, med_full$SO2, med_full$PM2_5,med_full$Unemployment_Rate), by = list(med_full$Quarter), FUN = mean)
+colnames(med_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+
+#Highland
+highland_full$month <- as.Date(paste0(highland_full$month, "-01"))
+highland_full$month <- as.Date(highland_full$month, format='%Y-%m-%d')
+highland_full$Quarter <- floor_date(highland_full$month, 'quarter')
+
+highland_full <- aggregate(x = cbind(highland_full$CO, highland_full$NO2, highland_full$SO2, highland_full$PM2_5,highland_full$Unemployment_Rate), by = list(highland_full$Quarter), FUN = mean)
+colnames(highland_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+
+#Monsoon
+monsoon_full$month <- as.Date(paste0(monsoon_full$month, "-01"))
+monsoon_full$month <- as.Date(monsoon_full$month, format='%Y-%m-%d')
+monsoon_full$Quarter <- floor_date(monsoon_full$month, 'quarter')
+
+monsoon_full <- aggregate(x = cbind(monsoon_full$CO, monsoon_full$NO2, monsoon_full$SO2, monsoon_full$PM2_5,monsoon_full$Unemployment_Rate), by = list(monsoon_full$Quarter), FUN = mean)
+colnames(monsoon_full) <- c("Date", "CO", "NO2", "SO2", "PM2_5", "Unemployment_Rate")
+```
+
+
+#Calculate Percent Change
+
+#Savannah
+```{r}
+sav_full <- sav_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+sav_full <- sav_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+sav_full <- sav_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+sav_full <- sav_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+sav_full <- sav_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+sav_change <- sav_full[-1,-2:-6]
+
+```
+
+#Desert
+```{r}
+desert_full <- desert_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+desert_full <- desert_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+desert_full <- desert_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+desert_full <- desert_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+desert_full <- desert_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+desert_change <- desert_full[-1,-2:-6]
+```
+
+#Subtrop
+```{r}
+subtrop_full <- subtrop_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+subtrop_full <- subtrop_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+subtrop_full <- subtrop_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+subtrop_full <- subtrop_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+subtrop_full <- subtrop_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+subtrop_change <- subtrop_full[-1,-2:-6]
+```
+
+#Med
+```{r}
+med_full <- med_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+med_full <- med_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+med_full <- med_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+med_full <- med_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+med_full <- med_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+med_change <- med_full[-1,-2:-6]
+```
+
+#Highland
+```{r}
+highland_full <- highland_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+highland_full <- highland_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+highland_full <- highland_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+highland_full <- highland_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+highland_full <- highland_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+highland_change <- highland_full[-1,-2:-6]
+```
+
+#Monsoon
+```{r}
+monsoon_full <- monsoon_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(CO_change = (CO/lag(CO) - 1) * 100)
+
+monsoon_full <- monsoon_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(NO2_change = (NO2/lag(NO2) - 1) * 100)
+
+monsoon_full <- monsoon_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(SO2_change = (SO2/lag(SO2) - 1) * 100)
+
+monsoon_full <- monsoon_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(PM2_5_change = (PM2_5/lag(PM2_5) - 1) * 100)
+
+monsoon_full <- monsoon_full %>%
+  arrange(Date, .by_group = TRUE) %>%
+  mutate(Unemp_change = (Unemployment_Rate/lag(Unemployment_Rate) - 1) * 100)
+
+
+monsoon_change <- monsoon_full[-1,-2:-6]
+```
+
+#Percent Change Plots
+```{r}
+#Savannah
+sav.co <- ts(sav_change$CO_change, start=2018, freq=4)
+sav.no <- ts(sav_change$NO2_change, start=2018, freq=4)
+sav.so <- ts(sav_change$SO2_change, start=2018, freq=4)
+sav.pm <- ts(sav_change$PM2_5_change, start=2018, freq=4)
+sav.unemp <- ts(sav_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(sav.co,ylim=c(-75,350), main="Quarterly Percent Change Savannah")
+lines(sav.no, col='black')
+lines(sav.so, col='black')
+lines(sav.pm, col='black')
+lines(sav.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+
+#Desert
+des.co <- ts(desert_change$CO_change, start=2018, freq=4)
+des.no <- ts(desert_change$NO2_change, start=2018, freq=4)
+des.so <- ts(desert_change$SO2_change, start=2018, freq=4)
+des.pm <- ts(desert_change$PM2_5_change, start=2018, freq=4)
+des.unemp <- ts(desert_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(des.co,ylim=c(-75,350), main="Quarterly Percent Change Desert")
+lines(des.no, col='black')
+lines(des.so, col='black')
+lines(des.pm, col='black')
+lines(des.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+
+#Subtrop
+sub.co <- ts(subtrop_change$CO_change, start=2018, freq=4)
+sub.no <- ts(subtrop_change$NO2_change, start=2018, freq=4)
+sub.so <- ts(subtrop_change$SO2_change, start=2018, freq=4)
+sub.pm <- ts(subtrop_change$PM2_5_change, start=2018, freq=4)
+sub.unemp <- ts(subtrop_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(sub.co,ylim=c(-75,350), main="Quarterly Percent Change Subtropical")
+lines(sub.no, col='black')
+lines(sub.so, col='black')
+lines(sub.pm, col='black')
+lines(sub.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+
+#Med
+med.co <- ts(med_change$CO_change, start=2018, freq=4)
+med.no <- ts(med_change$NO2_change, start=2018, freq=4)
+med.so <- ts(med_change$SO2_change, start=2018, freq=4)
+med.pm <- ts(med_change$PM2_5_change, start=2018, freq=4)
+med.unemp <- ts(med_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(med.co,ylim=c(-75,350), main="Quarterly Percent Change Med")
+lines(med.no, col='black')
+lines(med.so, col='black')
+lines(med.pm, col='black')
+lines(med.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+
+#Highland
+high.co <- ts(highland_change$CO_change, start=2018, freq=4)
+high.no <- ts(highland_change$NO2_change, start=2018, freq=4)
+high.so <- ts(highland_change$SO2_change, start=2018, freq=4)
+high.pm <- ts(highland_change$PM2_5_change, start=2018, freq=4)
+high.unemp <- ts(highland_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(high.co,ylim=c(-75,350), main="Quarterly Percent Change Highland")
+lines(high.no, col='black')
+lines(high.so, col='black')
+lines(high.pm, col='black')
+lines(high.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+
+#Monsoon
+mon.co <- ts(monsoon_change$CO_change, start=2018, freq=4)
+mon.no <- ts(monsoon_change$NO2_change, start=2018, freq=4)
+mon.so <- ts(monsoon_change$SO2_change, start=2018, freq=4)
+mon.pm <- ts(monsoon_change$PM2_5_change, start=2018, freq=4)
+mon.unemp <- ts(monsoon_change$Unemp_change, start=2018, freq=4)
+
+#Plot the Data
+ts.plot(mon.co,ylim=c(-75,600), main="Quarterly Percent Change Monsoon")
+lines(mon.no, col='black')
+lines(mon.so, col='black')
+lines(mon.pm, col='black')
+lines(mon.unemp, col='red')
+#legend(x=2018,y=200,legend=c("Unemp Rate","CO","NO2", "SO2", "PM"),lty = 1, col=c("red", "black","blue","purple","orange"))
+```
+
+#Multivariate Analysis
+
+#Savannah
+```{r}
+df_sav$month <- as.Date(paste0(df_sav$month, "-01"))
+df_sav$month <- as.Date(df_sav$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_sav[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+sav.co.ts <- ts(df_sav$CO,start=2018,freq=12)
+sav.no.ts<- ts(df_sav$NO2,start=2018,freq=12)
+sav.so.ts<- ts(df_sav$SO2,start=2018,freq=12)
+sav.pm.ts<- ts(df_sav$PM2_5,start=2018,freq=12)
+sav.unemp.ts <- ts(sav_unemp$Unemployment_Rate,start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(sav.co.ts)
+ts.plot(sav.no.ts)
+ts.plot(sav.so.ts)
+ts.plot(sav.pm.ts)
+ts.plot(sav.unemp.ts)
+```
+#ACF Plots
+```{r}
+acf(sav.co.ts)
+acf(sav.no.ts)
+acf(sav.so.ts)
+acf(sav.pm.ts)
+acf(sav.unemp.ts)
+```
+#Seasonality present in all but unemployment rate
+
+#De-Seasonalize the variables with seasonality
+```{r}
+#CO
+sav.co.ts <- ts(df_sav$CO, freq=12)
+sav.co.anova <- lm(sav.co.ts~season(sav.co.ts))
+
+sav.co.resid <- sav.co.anova$residuals 
+
+#NO2
+sav.no.ts <- ts(df_sav$NO2, freq=12)
+sav.no.anova <- lm(sav.no.ts~season(sav.no.ts))
+
+sav.no.resid <- sav.no.anova$residuals 
+
+#SO2
+sav.so.ts <- ts(df_sav$SO2, freq=12)
+sav.so.anova <- lm(sav.so.ts~season(sav.so.ts))
+
+sav.so.resid <- sav.so.anova$residuals 
+#PM
+sav.pm.ts <- ts(df_sav$PM2_5, freq=12)
+sav.pm.anova <- lm(sav.pm.ts~season(sav.pm.ts))
+
+sav.pm.resid <- sav.pm.anova$residuals 
+```
+
+#Residual Analysis
+```{r}
+acf(sav.co.resid)
+acf(sav.no.resid)
+acf(sav.so.resid)
+acf(sav.pm.resid)
+```
+
+#Trend and Seasonality
+```{r}
+time.pts = c(1:length(df_sav$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+sav.co.har = harmonic(sav.co.ts,2)
+sav.co.gam.fit = gam(sav.co.ts~s(time.pts)+sav.co.har)
+sav.co.gam.resid <- sav.co.gam.fit$residuals
+#NO2
+sav.no.har = harmonic(sav.no.ts,2)
+sav.no.gam.fit = gam(sav.no.ts~s(time.pts)+sav.no.har)
+sav.no.gam.resid <- sav.no.gam.fit$residuals
+#SO2
+sav.so.har = harmonic(sav.so.ts,2)
+sav.so.gam.fit = gam(sav.so.ts~s(time.pts)+sav.so.har)
+sav.so.gam.resid <- sav.so.gam.fit$residuals
+#PM
+sav.pm.har = harmonic(sav.pm.ts,2)
+sav.pm.gam.fit = gam(sav.pm.ts~s(time.pts)+sav.pm.har)
+sav.pm.gam.resid <- sav.pm.gam.fit$residuals
+```
+
+#ACF Plots
+```{r}
+acf(sav.co.gam.resid )
+acf(sav.no.gam.resid )
+acf(sav.so.gam.resid )
+acf(sav.pm.gam.resid )
+```
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+sav.co.xts <- xts(sav.co.gam.resid, dates)
+sav.no.xts <- xts(sav.no.gam.resid, dates)
+sav.so.xts <- xts(sav.so.gam.resid, dates)
+sav.pm.xts <- xts(sav.pm.gam.resid, dates)
+sav.unemp.xts <- xts(sav_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+sav.ts.merge <-  merge(sav.unemp.xts, sav.co.xts, join = 'inner')
+sav.ts.merge <- merge(sav.ts.merge, sav.no.xts, join = 'inner')
+sav.ts.merge <- merge(sav.ts.merge, sav.so.xts, join = 'inner')
+sav.ts.merge <- merge(sav.ts.merge, sav.pm.xts, join = 'inner')
+colnames(sav.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+#Select Var Order Using AIC and BIC
+```{r}
+plot(VARselect(sav.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(sav.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(sav.ts.merge)$select
+
+#Choose p=7 for VAR model
+```
+#Apply VAR model with p=9
+```{r}
+sav.var <- VAR(sav.ts.merge, p=7)
+summary(sav.var)
+```
+
+#Wald Tests
+```{r}
+coef.sav <- coefficients(sav.var)$Unemp[-(5*7+1),1]
+sav.var.model = vcov(sav.var)[2:36,2:36]
+
+#CO
+wald.test(b=coef.sav, sav.var.model, Terms=seq(2, 5*7, 5))
+#NO2
+wald.test(b=coef.sav, sav.var.model, Terms=seq(3, 5*7, 5))
+#SO2
+wald.test(b=coef.sav, sav.var.model, Terms=seq(4, 5*7, 5))
+#PM
+wald.test(b=coef.sav, sav.var.model, Terms=seq(5, 5*7, 5))
+```
+#Fail to reject Null Hypothesis (H0: Some set of predictor variables are all equal to zero) - no variables granger cause Unemployment rate
+
+#Test a Restricted VAR Model
+```{r}
+sav.var.restrict <- restrict(sav.var)
+summary(sav.var.restrict)
+```
+#Desert
+```{r}
+df_desert$month <- as.Date(paste0(df_desert$month, "-01"))
+df_desert$month <- as.Date(df_desert$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_desert[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+des.co.ts <- ts(df_desert$CO,start=2018,freq=12)
+des.no.ts <- ts(df_desert$NO2,start=2018,freq=12)
+des.so.ts <- ts(df_desert$SO2,start=2018,freq=12)
+des.pm.ts <- ts(df_desert$PM2_5,start=2018,freq=12)
+des.unemp.ts <- ts(desert_unemp$Unemployment_Rate,start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(des.co.ts)
+ts.plot(des.no.ts)
+ts.plot(des.so.ts)
+ts.plot(des.pm.ts)
+ts.plot(des.unemp.ts)
+```
+#ACF Plots
+```{r}
+acf(des.co.ts)
+acf(des.no.ts)
+acf(des.so.ts)
+acf(des.pm.ts)
+acf(des.unemp.ts)
+```
+#Seasonality and trend present
+
+#Remove trend and seasonality
+```{r}
+time.pts = c(1:length(df_desert$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+des.co.har = harmonic(des.co.ts,2)
+des.co.gam.fit = gam(des.co.ts~s(time.pts)+des.co.har)
+des.co.gam.resid <- des.co.gam.fit$residuals
+#NO2
+des.no.har = harmonic(des.no.ts,2)
+des.no.gam.fit = gam(des.no.ts~s(time.pts)+des.no.har)
+des.no.gam.resid <- des.no.gam.fit$residuals
+#SO2
+des.so.har = harmonic(des.so.ts,2)
+des.so.gam.fit = gam(des.so.ts~s(time.pts)+des.so.har)
+des.so.gam.resid <- des.so.gam.fit$residuals
+#PM
+des.pm.har = harmonic(des.pm.ts,2)
+des.pm.gam.fit = gam(des.pm.ts~s(time.pts)+des.pm.har)
+des.pm.gam.resid <- des.pm.gam.fit$residuals
+
+```
+
+#ACF Plots
+```{r}
+acf(des.co.gam.resid )
+acf(des.no.gam.resid )
+acf(des.so.gam.resid )
+acf(des.pm.gam.resid )
+```
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+des.co.xts <- xts(des.co.gam.resid, dates)
+des.no.xts <- xts(des.no.gam.resid, dates)
+des.so.xts <- xts(des.so.gam.resid, dates)
+des.pm.xts <- xts(des.pm.gam.resid, dates)
+des.unemp.xts <- xts(desert_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+des.ts.merge <-  merge(des.unemp.xts, des.co.xts, join = 'inner')
+des.ts.merge <- merge(des.ts.merge, des.no.xts, join = 'inner')
+des.ts.merge <- merge(des.ts.merge, des.so.xts, join = 'inner')
+des.ts.merge <- merge(des.ts.merge, des.pm.xts, join = 'inner')
+colnames(des.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+#Select Var Order Using AIC and BIC
+```{r}
+plot(VARselect(des.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(des.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(des.ts.merge)$select
+
+#Choose p=7 for VAR model
+```
+#Apply VAR model with p=9
+```{r}
+des.var <- VAR(des.ts.merge, p=7)
+summary(des.var)
+```
+
+#Wald Tests
+```{r}
+coef.des <- coefficients(des.var)$Unemp[-(5*7+1),1]
+des.var.model = vcov(des.var)[2:36,2:36]
+
+#CO
+wald.test(b=coef.des, des.var.model, Terms=seq(2, 5*7, 5))
+#NO2
+wald.test(b=coef.des, des.var.model, Terms=seq(3, 5*7, 5))
+#SO2
+wald.test(b=coef.des, des.var.model, Terms=seq(4, 5*7, 5))
+#PM
+wald.test(b=coef.des, des.var.model, Terms=seq(5, 5*7, 5))
+```
+
+#Test a Restricted VAR Model
+```{r}
+des.var.restrict <- restrict(des.var)
+summary(des.var.restrict)
+```
+#Subtropical
+```{r}
+df_subtrop$month <- as.Date(paste0(df_subtrop$month, "-01"))
+df_subtrop$month <- as.Date(df_subtrop$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_subtrop[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+sub.co.ts <- ts(df_subtrop$CO, start=2018,freq=12)
+sub.no.ts <- ts(df_subtrop$NO2, start=2018,freq=12)
+sub.so.ts <- ts(df_subtrop$SO2, start=2018,freq=12)
+sub.pm.ts <- ts(df_subtrop$PM2_5, start=2018,freq=12)
+sub.unemp.ts <- ts(subtrop_unemp$Unemployment_Rate, start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(sub.co.ts)
+ts.plot(sub.no.ts)
+ts.plot(sub.so.ts)
+ts.plot(sub.pm.ts)
+ts.plot(sub.unemp.ts)
+```
+#ACF Plots
+```{r}
+acf(sub.co.ts)
+acf(sub.no.ts)
+acf(sub.so.ts)
+acf(sub.pm.ts)
+acf(sub.unemp.ts)
+```
+#Trend and Seasonality
+```{r}
+time.pts = c(1:length(df_subtrop$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+sub.co.har = harmonic(sub.co.ts,2)
+sub.co.gam.fit = gam(sub.co.ts~s(time.pts)+sub.co.har)
+sub.co.gam.resid <- sub.co.gam.fit$residuals
+#NO2
+sub.no.har = harmonic(sub.no.ts,2)
+sub.no.gam.fit = gam(sub.no.ts~s(time.pts)+sub.no.har)
+sub.no.gam.resid <- sub.no.gam.fit$residuals
+#SO2
+sub.so.har = harmonic(sub.so.ts,2)
+sub.so.gam.fit = gam(sub.so.ts~s(time.pts)+sub.so.har)
+sub.so.gam.resid <- sub.so.gam.fit$residuals
+#PM
+sub.pm.har = harmonic(sub.pm.ts,2)
+sub.pm.gam.fit = gam(sub.pm.ts~s(time.pts)+sub.pm.har)
+sub.pm.gam.resid <- sub.pm.gam.fit$residuals
+```
+
+#ACF Plots
+```{r}
+acf(sub.co.gam.resid )
+acf(sub.no.gam.resid )
+acf(sub.so.gam.resid )
+acf(sub.pm.gam.resid )
+```
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+sub.co.xts <- xts(sub.co.gam.resid, dates)
+sub.no.xts <- xts(sub.no.gam.resid, dates)
+sub.so.xts <- xts(sub.so.gam.resid, dates)
+sub.pm.xts <- xts(sub.pm.gam.resid, dates)
+sub.unemp.xts <- xts(subtrop_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+sub.ts.merge <-  merge(sub.unemp.xts, sub.co.xts, join = 'inner')
+sub.ts.merge <- merge(sub.ts.merge, sub.no.xts, join = 'inner')
+sub.ts.merge <- merge(sub.ts.merge, sub.so.xts, join = 'inner')
+sub.ts.merge <- merge(sub.ts.merge, sub.pm.xts, join = 'inner')
+colnames(sub.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+```{r}
+plot(VARselect(sav.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(sav.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(sav.ts.merge)$select
+
+#Choose p=7 for VAR model
+```
+
+#Apply VAR model with p=9
+```{r}
+sub.var <- VAR(sub.ts.merge, p=7)
+summary(sub.var)
+```
+
+#Wald Tests
+```{r}
+coef.sub <- coefficients(sub.var)$Unemp[-(5*7+1),1]
+sub.var.model = vcov(sub.var)[2:36,2:36]
+
+#CO
+wald.test(b=coef.sub, sub.var.model, Terms=seq(2, 5*7, 5))
+#NO2
+wald.test(b=coef.sub, sub.var.model, Terms=seq(3, 5*7, 5))
+#SO2
+wald.test(b=coef.sub, sub.var.model, Terms=seq(4, 5*7, 5))
+#PM
+wald.test(b=coef.sub, sub.var.model, Terms=seq(5, 5*7, 5))
+```
+
+#Test a Restricted VAR Model
+```{r}
+sub.var.restrict <- restrict(sub.var)
+summary(sub.var.restrict)
+```
+
+#Med
+```{r}
+df_med$month <- as.Date(paste0(df_med$month, "-01"))
+df_med$month <- as.Date(df_med$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_med[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+med.co.ts <- ts(df_med$CO, start=2018,freq=12)
+med.no.ts <- ts(df_med$NO2, start=2018,freq=12)
+med.so.ts <- ts(df_med$SO2, start=2018,freq=12)
+med.pm.ts <- ts(df_med$PM2_5, start=2018,freq=12)
+med.unemp.ts <- ts(med_unemp$Unemployment_Rate, start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(med.co.ts)
+ts.plot(med.no.ts)
+ts.plot(med.so.ts)
+ts.plot(med.pm.ts)
+ts.plot(med.unemp.ts)
+```
+
+#ACF Plots
+```{r}
+acf(med.co.ts)
+acf(med.no.ts)
+acf(med.so.ts)
+acf(med.pm.ts)
+acf(med.unemp.ts)
+```
+
+#Trend and Seasonality
+```{r}
+time.pts = c(1:length(df_med$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+med.co.har = harmonic(med.co.ts,2)
+med.co.gam.fit = gam(med.co.ts~s(time.pts)+med.co.har)
+med.co.gam.resid <- med.co.gam.fit$residuals
+#NO2
+med.no.har = harmonic(med.no.ts,2)
+med.no.gam.fit = gam(med.no.ts~s(time.pts)+med.no.har)
+med.no.gam.resid <- med.no.gam.fit$residuals
+#SO2
+med.so.har = harmonic(med.so.ts,2)
+med.so.gam.fit = gam(med.so.ts~s(time.pts)+med.so.har)
+med.so.gam.resid <- med.so.gam.fit$residuals
+#PM
+med.pm.har = harmonic(med.pm.ts,2)
+med.pm.gam.fit = gam(med.pm.ts~s(time.pts)+med.pm.har)
+med.pm.gam.resid <- med.pm.gam.fit$residuals
+```
+
+#ACF Plots
+```{r}
+acf(med.co.gam.resid )
+acf(med.no.gam.resid )
+acf(med.so.gam.resid )
+acf(med.pm.gam.resid )
+```
+
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+med.co.xts <- xts(med.co.gam.resid, dates)
+med.no.xts <- xts(med.no.gam.resid, dates)
+med.so.xts <- xts(med.so.gam.resid, dates)
+med.pm.xts <- xts(med.pm.gam.resid, dates)
+med.unemp.xts <- xts(med_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+med.ts.merge <-  merge(med.unemp.xts, med.co.xts, join = 'inner')
+med.ts.merge <- merge(med.ts.merge, med.no.xts, join = 'inner')
+med.ts.merge <- merge(med.ts.merge, med.so.xts, join = 'inner')
+med.ts.merge <- merge(med.ts.merge, med.pm.xts, join = 'inner')
+colnames(med.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+#Select Var Order Using AIC and BIC
+```{r}
+plot(VARselect(med.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(med.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(med.ts.merge)$select
+
+#Choose p=8 for VAR model
+```
+
+
+#Apply VAR model with p=9
+```{r}
+med.var <- VAR(med.ts.merge, p=8)
+summary(med.var)
+```
+
+#Wald Tests
+```{r}
+coef.med <- coefficients(med.var)$Unemp[-(5*8+1),1]
+med.var.model = vcov(med.var)[2:41,2:41]
+
+#CO
+wald.test(b=coef.med, med.var.model, Terms=seq(2, 5*8, 5))
+#NO2
+wald.test(b=coef.med, med.var.model, Terms=seq(3, 5*8, 5))
+#SO2
+wald.test(b=coef.med, med.var.model, Terms=seq(4, 5*8, 5))
+#PM
+wald.test(b=coef.med, med.var.model, Terms=seq(5, 5*8, 5))
+```
+
+#Test a Restricted VAR Model
+```{r}
+med.var.restrict <- restrict(med.var)
+summary(med.var.restrict)
+```
+#Highland
+```{r}
+df_highland$month <- as.Date(paste0(df_highland$month, "-01"))
+df_highland$month <- as.Date(df_highland$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_highland[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+high.co.ts <- ts(df_highland$CO, start=2018,freq=12)
+high.no.ts <- ts(df_highland$NO2, start=2018,freq=12)
+high.so.ts <- ts(df_highland$SO2, start=2018,freq=12)
+high.pm.ts <- ts(df_highland$PM2_5, start=2018,freq=12)
+high.unemp.ts <- ts(highland_unemp$Unemployment_Rate, start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(high.co.ts)
+ts.plot(high.no.ts)
+ts.plot(high.so.ts)
+ts.plot(high.pm.ts)
+ts.plot(high.unemp.ts)
+```
+
+#ACF Plots
+```{r}
+acf(high.co.ts)
+acf(high.no.ts)
+acf(high.so.ts)
+acf(high.pm.ts)
+acf(high.unemp.ts)
+```
+#Trend and Seasonality
+```{r}
+time.pts = c(1:length(df_highland$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+high.co.har = harmonic(high.co.ts,2)
+high.co.gam.fit = gam(high.co.ts~s(time.pts)+high.co.har)
+high.co.gam.resid <- high.co.gam.fit$residuals
+#NO2
+high.no.har = harmonic(high.no.ts,2)
+high.no.gam.fit = gam(high.no.ts~s(time.pts)+high.no.har)
+high.no.gam.resid <- high.no.gam.fit$residuals
+#SO2
+high.so.har = harmonic(high.so.ts,2)
+high.so.gam.fit = gam(high.so.ts~s(time.pts)+high.so.har)
+high.so.gam.resid <- high.so.gam.fit$residuals
+#PM
+high.pm.har = harmonic(high.pm.ts,2)
+high.pm.gam.fit = gam(high.pm.ts~s(time.pts)+high.pm.har)
+high.pm.gam.resid <- high.pm.gam.fit$residuals
+```
+
+#ACF Plots
+```{r}
+acf(high.co.gam.resid )
+acf(high.no.gam.resid )
+acf(high.so.gam.resid )
+acf(high.pm.gam.resid )
+```
+
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+high.co.xts <- xts(high.co.gam.resid, dates)
+high.no.xts <- xts(high.no.gam.resid, dates)
+high.so.xts <- xts(high.so.gam.resid, dates)
+high.pm.xts <- xts(high.pm.gam.resid, dates)
+high.unemp.xts <- xts(highland_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+high.ts.merge <-  merge(high.unemp.xts, high.co.xts, join = 'inner')
+high.ts.merge <- merge(high.ts.merge, high.no.xts, join = 'inner')
+high.ts.merge <- merge(high.ts.merge, high.so.xts, join = 'inner')
+high.ts.merge <- merge(high.ts.merge, high.pm.xts, join = 'inner')
+colnames(high.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+#Select Var Order Using AIC and BIC
+```{r}
+plot(VARselect(high.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(high.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(high.ts.merge)$select
+
+#Choose p=8 for VAR model
+```
+
+#Apply VAR model with p=9
+```{r}
+high.var <- VAR(high.ts.merge, p=8)
+summary(high.var)
+```
+
+#Wald Tests
+```{r}
+coef.high <- coefficients(high.var)$Unemp[-(5*8+1),1]
+high.var.model = vcov(high.var)[2:41,2:41]
+
+#CO
+wald.test(b=coef.high, high.var.model, Terms=seq(2, 5*8, 5))
+#NO2
+wald.test(b=coef.high, high.var.model, Terms=seq(3, 5*8, 5))
+#SO2
+wald.test(b=coef.high, high.var.model, Terms=seq(4, 5*8, 5))
+#PM
+wald.test(b=coef.high, high.var.model, Terms=seq(5, 5*8, 5))
+```
+
+#Test a Restricted VAR Model
+```{r}
+high.var.restrict <- restrict(high.var)
+summary(high.var.restrict)
+```
+#Monsoon
+```{r}
+df_monsoon$month <- as.Date(paste0(df_monsoon$month, "-01"))
+df_monsoon$month <- as.Date(df_monsoon$month, format='%Y-%m-%d')
+
+dates <- as.Date(df_monsoon[,1],"%m/%d/%Y")
+
+#Transform Into Time Series
+mon.co.ts <- ts(df_monsoon$CO, start=2018,freq=12)
+mon.no.ts <- ts(df_monsoon$NO2, start=2018,freq=12)
+mon.so.ts <- ts(df_monsoon$SO2, start=2018,freq=12)
+mon.pm.ts <- ts(df_monsoon$PM2_5, start=2018,freq=12)
+mon.unemp.ts <- ts(monsoon_unemp$Unemployment_Rate, start=2018,freq=12)
+
+```
+
+#Plots
+```{r}
+ts.plot(mon.co.ts)
+ts.plot(mon.no.ts)
+ts.plot(mon.so.ts)
+ts.plot(mon.pm.ts)
+ts.plot(mon.unemp.ts)
+```
+
+#ACF Plots
+```{r}
+acf(mon.co.ts)
+acf(mon.no.ts)
+acf(mon.so.ts)
+acf(mon.pm.ts)
+acf(mon.unemp.ts)
+```
+
+#Trend and Seasonality
+```{r}
+time.pts = c(1:length(df_monsoon$CO))
+time.pts = c(time.pts - min(time.pts))/max(time.pts)
+
+x1 = time.pts
+x2 = time.pts^2
+
+#CO
+mon.co.har = harmonic(mon.co.ts,2)
+mon.co.gam.fit = gam(mon.co.ts~s(time.pts)+mon.co.har)
+mon.co.gam.resid <- mon.co.gam.fit$residuals
+#NO2
+mon.no.har = harmonic(mon.no.ts,2)
+mon.no.gam.fit = gam(mon.no.ts~s(time.pts)+mon.no.har)
+mon.no.gam.resid <- mon.no.gam.fit$residuals
+#SO2
+mon.so.har = harmonic(mon.so.ts,2)
+mon.so.gam.fit = gam(mon.so.ts~s(time.pts)+mon.so.har)
+mon.so.gam.resid <- mon.so.gam.fit$residuals
+#PM
+mon.pm.har = harmonic(mon.pm.ts,2)
+mon.pm.gam.fit = gam(mon.pm.ts~s(time.pts)+mon.pm.har)
+mon.pm.gam.resid <- mon.pm.gam.fit$residuals
+```
+
+#ACF Plots
+```{r}
+acf(mon.co.gam.resid )
+acf(mon.no.gam.resid )
+acf(mon.so.gam.resid )
+acf(mon.pm.gam.resid )
+```
+#Create Multivariate Time Series
+```{r}
+#Create Time Series
+mon.co.xts <- xts(mon.co.gam.resid, dates)
+mon.no.xts <- xts(mon.no.gam.resid, dates)
+mon.so.xts <- xts(mon.so.gam.resid, dates)
+mon.pm.xts <- xts(mon.pm.gam.resid, dates)
+mon.unemp.xts <- xts(monsoon_unemp$Unemployment_Rate, dates)
+
+#Merge into Multivriate Time Series
+mon.ts.merge <-  merge(mon.unemp.xts, mon.co.xts, join = 'inner')
+mon.ts.merge <- merge(mon.ts.merge, mon.no.xts, join = 'inner')
+mon.ts.merge <- merge(mon.ts.merge, mon.so.xts, join = 'inner')
+mon.ts.merge <- merge(mon.ts.merge, mon.pm.xts, join = 'inner')
+colnames(mon.ts.merge) <- c("Unemp","CO", "NO2", "SO2", "PM")
+```
+
+#Select Var Order Using AIC and BIC
+```{r}
+plot(VARselect(mon.ts.merge)$criteria[1,],xlab="Order",ylab="AIC")
+plot(VARselect(mon.ts.merge)$criteria[3,],xlab="Order",ylab="BIC")
+VARselect(mon.ts.merge)$select
+
+#Choose p=7 for VAR model
+```
+
+#Apply VAR model with p=9
+```{r}
+mon.var <- VAR(mon.ts.merge, p=7)
+summary(mon.var)
+```
+
+#Wald Tests
+```{r}
+coef.mon <- coefficients(mon.var)$Unemp[-(5*7+1),1]
+mon.var.model = vcov(mon.var)[2:36,2:36]
+
+#CO
+wald.test(b=coef.mon, mon.var.model, Terms=seq(2, 5*7, 5))
+#NO2
+wald.test(b=coef.mon, mon.var.model, Terms=seq(3, 5*7, 5))
+#SO2
+wald.test(b=coef.mon, mon.var.model, Terms=seq(4, 5*7, 5))
+#PM
+wald.test(b=coef.mon, mon.var.model, Terms=seq(5, 5*7, 5))
+```
+
+#Test a Restricted VAR Model
+```{r}
+mon.var.restrict <- restrict(mon.var)
+summary(mon.var.restrict)
+```
+
+#Impact of COVID on Unemployment and Emissions
+#CO
+```{r}
+ts.plot(sav.co.ts, main="Savannah CO")
+ts.plot(des.co.ts,main="Desert CO")
+ts.plot(sub.co.ts,main="Subtropical CO")
+ts.plot(med.co.ts,main="Med CO")
+ts.plot(high.co.ts,main="Highland CO")
+ts.plot(mon.co.ts,main="Monsoon CO")
+```
+
+#NO2
+```{r}
+ts.plot(sav.no.ts,main="Savannah NO2")
+ts.plot(des.no.ts,main="Desert NO2")
+ts.plot(sub.no.ts,main="Subtropical NO2")
+ts.plot(med.no.ts,main="Med NO2")
+ts.plot(high.no.ts,main="Highland NO2")
+ts.plot(mon.no.ts,main="Monsoon NO2")
+```
+
+#SO2
+```{r}
+ts.plot(sav.so.ts,main="Savannah SO2")
+ts.plot(des.so.ts,main="Desert SO2")
+ts.plot(sub.so.ts,main="Subtropical SO2")
+ts.plot(med.so.ts,main="Med SO2")
+ts.plot(high.so.ts,main="Highland SO2")
+ts.plot(mon.so.ts,main="Monsoon SO2")
+```
+
+#PM
+```{r}
+ts.plot(sav.pm.ts,main="Savannah PM")
+ts.plot(des.pm.ts,main="Desert PM")
+ts.plot(sub.pm.ts,main="Subtropical PM")
+ts.plot(med.pm.ts,main="Med PM")
+ts.plot(high.pm.ts,main="Highland PM")
+ts.plot(mon.pm.ts,main="Monsoon PM")
+```
+
+#Unemp
+```{r}
+ts.plot(sav.unemp.ts,main="Savannah Unemployment")
+ts.plot(des.unemp.ts,main="Desert Unemployment")
+ts.plot(sub.unemp.ts,main="Subtropical Unemployment")
+ts.plot(med.unemp.ts,main="Med Unemployment")
+ts.plot(high.unemp.ts,main="Highland Unemployment")
+ts.plot(mon.unemp.ts,main="Monsoon Unemployment")
+```
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+﻿Climate/Emission,CO,NO2,SO2,PM2.5
+Tropical Savanna,"max_depth: 9, n_estimators: 200","max_depth: 9, n_estimators: 200","max_depth: 7, n_estimators: 500","max_depth: 9, n_estimators: 100"
+Mid-Latitude Steppe and Desert,"max_depth: 5, n_estimators: 200","max_depth: 7, n_estimators: 100","max_depth: 2, n_estimators: 100","max_depth: 9, n_estimators: 200"
+Humid Subtropical,"max_depth: 9, n_estimators: 200","max_depth: 7, n_estimators: 100","max_depth: 5, n_estimators: 200","max_depth: 7, n_estimators: 500"
+Mediterran,"max_depth: 5, n_estimators: 200","max_depth: 5, n_estimators: 500","max_depth: 5, n_estimators: 200","max_depth: 5, n_estimators: 200"
+Tropical Monsoon,"max_depth: 7, n_estimators: 50","max_depth: 7, n_estimators: 200","max_depth: 7, n_estimators: 200","max_depth: 5, n_estimators: 500"
+Oceanic Subtropical Highland,"max_depth: 7, n_estimators: 100","max_depth: 5, n_estimators: 50","max_depth: 9, n_estimators: 50","max_depth: 7, n_estimators: 100"
+Marine West Coast,"max_depth: 5, n_estimators: 500","max_depth: 5, n_estimators: 500","max_depth: 5, n_estimators: 200","max_depth: 7, n_estimators: 200"

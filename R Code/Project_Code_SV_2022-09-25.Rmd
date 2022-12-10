@@ -1,0 +1,240 @@
+#rm(list=ls())
+#Read Data
+```{r}
+Agartala <- read.csv('api_data_IN_Agartala_raw.csv', head = TRUE)
+Agra <- read.csv('api_data_IN_Agra_raw.csv', head = TRUE)
+Aizwal <- read.csv('api_data_IN_Aizwal_raw.csv', head = TRUE)
+Amritsar <- read.csv('api_data_IN_Amritsar_raw.csv', head = TRUE)
+Asansol <- read.csv('api_data_IN_Asansol_raw.csv', head = TRUE)
+Aurangabad <- read.csv('api_data_IN_Aurangabad_raw.csv', head = TRUE)
+Bareilly <- read.csv('api_data_IN_Bareilly_raw.csv', head = TRUE)
+Belgaum <- read.csv('api_data_IN_Belgaum_raw.csv', head = TRUE)
+Bengaluru <- read.csv('api_data_IN_Bengaluru_raw.csv', head = TRUE)
+Bhilai <- read.csv('api_data_IN_Bhilai_raw.csv', head = TRUE)
+Bhopal <- read.csv('api_data_IN_Bhopal_raw.csv', head = TRUE)
+Chandigarh<- read.csv('api_data_IN_Chandigarh_raw.csv', head = TRUE)
+Chennai <- read.csv('api_data_IN_Chennai_raw.csv', head = TRUE)
+Coimbatore <- read.csv('api_data_IN_Coimbatore_raw.csv', head = TRUE)
+Dehradun <- read.csv('api_data_IN_Dehradun_raw.csv', head = TRUE)
+Delhi <- read.csv('api_data_IN_Delhi_raw.csv', head = TRUE)
+Faridabad <- read.csv('api_data_IN_Faridabad_raw.csv', head = TRUE)
+Gandhinagar<- read.csv('api_data_IN_Gandhinagar_raw.csv', head = TRUE)
+Gangtok <- read.csv('api_data_IN_Gangtok_raw.csv', head = TRUE)
+Ghaziabad <- read.csv('api_data_IN_Ghaziabad_raw.csv', head = TRUE)
+Gorakhpur <- read.csv('api_data_IN_Gorakhpur_raw.csv', head = TRUE)
+Gwalior <- read.csv('api_data_IN_Gwalior_raw.csv', head = TRUE)
+Hyderabad <- read.csv('api_data_IN_Hyderabad_raw.csv', head = TRUE)
+Imphal <- read.csv('api_data_IN_Imphal_raw.csv', head = TRUE)
+Indore<- read.csv('api_data_IN_Indore_raw.csv', head = TRUE)
+Jabalpur <- read.csv('api_data_IN_Jabalpur_raw.csv', head = TRUE)
+Jaipur <- read.csv('api_data_IN_Jaipur_raw.csv', head = TRUE)
+Jalandhar <- read.csv('api_data_IN_Jalandhar_raw.csv', head = TRUE)
+Jodhpur<- read.csv('api_data_IN_Jodhpur_raw.csv', head = TRUE)
+Kanpur <- read.csv('api_data_IN_Kanpur_raw.csv', head = TRUE)
+Kochi <- read.csv('api_data_IN_Kochi_raw.csv', head = TRUE)
+Kohima<- read.csv('api_data_IN_Kohima_raw.csv', head = TRUE)
+Kolkata <- read.csv('api_data_IN_Kolkata_raw.csv', head = TRUE)
+Kota <- read.csv('api_data_IN_Kota_raw.csv', head = TRUE)
+Kozhikode <- read.csv('api_data_IN_Kozhikode_raw.csv', head = TRUE)
+Lucknow <- read.csv('api_data_IN_Lucknow_raw.csv', head = TRUE)
+Ludhiana <- read.csv('api_data_IN_Ludhiana_raw.csv', head = TRUE)
+Mangalore <- read.csv('api_data_IN_Mangalore_raw.csv', head = TRUE)
+Meerut <- read.csv('api_data_IN_Meerut_raw.csv', head = TRUE)
+Moradabad <- read.csv('api_data_IN_Moradabad_raw.csv', head = TRUE)
+Mumbai <- read.csv('api_data_IN_Mumbai_raw.csv', head = TRUE)
+Mysuru <- read.csv('api_data_IN_Mysuru_raw.csv', head = TRUE)
+Nashik <- read.csv('api_data_IN_Nashik_raw.csv', head = TRUE)
+Patna <- read.csv('api_data_IN_Patna_raw.csv', head = TRUE)
+Prayagraj <- read.csv('api_data_IN_Prayagraj_raw.csv', head = TRUE)
+Puducherry <- read.csv('api_data_IN_Puducherry_raw.csv', head = TRUE)
+Pune<- read.csv('api_data_IN_Pune_raw.csv', head = TRUE)
+Shillong <- read.csv('api_data_IN_Shillong_raw.csv', head = TRUE)
+Solapur <- read.csv('api_data_IN_Solapur_raw.csv', head = TRUE)
+Srinagar <- read.csv('api_data_IN_Srinagar_raw.csv', head = TRUE)
+Thiruvananthapuram <- read.csv('api_data_IN_Thiruvananthapuram_raw.csv', head = TRUE)
+Varanasi <- read.csv('api_data_IN_Varanasi_raw.csv', head = TRUE)
+Vijaywada <- read.csv('api_data_IN_Vijaywada_raw.csv', head = TRUE)
+Visakhapatnam <- read.csv('api_data_IN_Visakhapatnam_raw.csv', head = TRUE)
+```
+
+#Get Lat and Long for each City
+```{r}
+Agartala_latlong <- Agartala[1,2:4]
+Agra_latlong <- Agra[1,2:4]
+Aizwal_latlong <- Aizwal[1,2:4]
+Amritsar_latlong <- Amritsar[1,2:4]
+Asansol_latlong <- Asansol[1,2:4]
+Aurangabad_latlong <-Aurangabad[1,2:4]
+Bareilly_latlong <- Bareilly[1,2:4]
+Belgaum_latlong <- Belgaum[1,2:4]
+Bengaluru_latlong <- Bengaluru[1,2:4]
+Bhilai_latlong <- Bhilai[1,2:4]
+Bhopal_latlong <- Bhopal[1,2:4]
+Chandigarh_latlong<- Chandigarh[1,2:4] 
+Chennai_latlong <- Chennai[1,2:4]
+Coimbatore_latlong <- Coimbatore[1,2:4]
+Dehradun_latlong <-Dehradun[1,2:4]
+Delhi_latlong <- Delhi[1,2:4]
+Faridabad_latlong <- Faridabad[1,2:4]
+Gandhinagar_latlong<-Gandhinagar[1,2:4]
+Gangtok_latlong <- Gangtok[1,2:4]
+Ghaziabad_latlong <- Ghaziabad[1,2:4]
+Gorakhpur_latlong <- Gorakhpur[1,2:4]
+Gwalior_latlong <- Gwalior[1,2:4]
+Hyderabad_latlong <- Hyderabad[1,2:4]
+Imphal_latlong <- Imphal[1,2:4]
+Indore_latlong<- Indore[1,2:4]
+Jabalpur_latlong <- Jabalpur[1,2:4]
+Jaipur_latlong <- Jaipur[1,2:4]
+Jalandhar_latlong <-Jalandhar[1,2:4]
+Jodhpur_latlong<-Jodhpur[1,2:4]
+Kanpur_latlong <- Kanpur[1,2:4]
+Kochi_latlong <- Kochi[1,2:4]
+Kohima_latlong<- Kohima[1,2:4]
+Kolkata_latlong <- Kolkata[1,2:4]
+Kota_latlong <- Kota[1,2:4]
+Kozhikode_latlong <-Kozhikode[1,2:4]
+Lucknow_latlong <-Lucknow[1,2:4]
+Ludhiana_latlong <- Ludhiana[1,2:4]
+Mangalore_latlong <- Mangalore[1,2:4]
+Meerut_latlong <- Meerut[1,2:4]
+Moradabad_latlong <- Moradabad[1,2:4]
+Mumbai_latlong <- Mumbai[1,2:4]
+Mysuru_latlong <- Mysuru[1,2:4]
+Nashik_latlong <- Nashik[1,2:4]
+Patna_latlong <- Patna[1,2:4]
+Prayagraj_latlong <- Prayagraj[1,2:4]
+Puducherry_latlong <- Puducherry[1,2:4]
+Pune_latlong<- Pune[1,2:4]
+Shillong_latlong <- Shillong[1,2:4]
+Solapur_latlong <- Solapur[1,2:4]
+Srinagar_latlong <- Srinagar[1,2:4]
+Thiruvananthapuram_latlong <- Thiruvananthapuram[1,2:4]
+Varanasi_latlong <- Varanasi[1,2:4]
+Vijaywada_latlong <- Vijaywada[1,2:4]
+Visakhapatnam_latlong <- Visakhapatnam[1,2:4]
+```
+
+#Merge Rows
+```{r}
+df <- Agartala_latlong
+df[nrow(df) + 1,] <- Agra_latlong
+df[nrow(df) + 1,] <- Aizwal_latlong
+df[nrow(df) + 1,] <- Amritsar_latlong 
+df[nrow(df) + 1,] <- Asansol_latlong 
+df[nrow(df) + 1,] <- Aurangabad_latlong
+df[nrow(df) + 1,] <- Bareilly_latlong
+df[nrow(df) + 1,] <- Belgaum_latlong
+df[nrow(df) + 1,] <- Bengaluru_latlong
+df[nrow(df) + 1,] <- Bhilai_latlong
+df[nrow(df) + 1,] <- Bhopal_latlong
+df[nrow(df) + 1,] <-Chandigarh_latlong
+df[nrow(df) + 1,] <-Chennai_latlong
+df[nrow(df) + 1,] <-Coimbatore_latlong
+df[nrow(df) + 1,] <-Dehradun_latlong
+df[nrow(df) + 1,] <-Delhi_latlong
+df[nrow(df) + 1,] <-Faridabad_latlong
+df[nrow(df) + 1,] <-Gandhinagar_latlong
+df[nrow(df) + 1,] <-Gangtok_latlong
+df[nrow(df) + 1,] <- Ghaziabad_latlong
+df[nrow(df) + 1,] <-Gorakhpur_latlong
+df[nrow(df) + 1,] <-Gwalior_latlong
+df[nrow(df) + 1,] <-Hyderabad_latlong
+df[nrow(df) + 1,] <-Imphal_latlong
+df[nrow(df) + 1,] <-Indore_latlong
+df[nrow(df) + 1,] <-Jabalpur_latlong
+df[nrow(df) + 1,] <- Jaipur_latlong
+df[nrow(df) + 1,] <-Jalandhar_latlong
+df[nrow(df) + 1,] <- Jodhpur_latlong
+df[nrow(df) + 1,] <-Kanpur_latlong
+df[nrow(df) + 1,] <-Kochi_latlong
+df[nrow(df) + 1,] <-Kohima_latlong
+df[nrow(df) + 1,] <-Kolkata_latlong
+df[nrow(df) + 1,] <-Kota_latlong
+df[nrow(df) + 1,] <- Kozhikode_latlong
+df[nrow(df) + 1,] <- Lucknow_latlong
+df[nrow(df) + 1,] <-Ludhiana_latlong
+df[nrow(df) + 1,] <-Mangalore_latlong
+df[nrow(df) + 1,] <-Meerut_latlong
+df[nrow(df) + 1,] <-Moradabad_latlong
+df[nrow(df) + 1,] <-Mumbai_latlong
+df[nrow(df) + 1,] <-Mysuru_latlong
+df[nrow(df) + 1,] <-Nashik_latlong
+df[nrow(df) + 1,] <-Patna_latlong
+df[nrow(df) + 1,] <-Prayagraj_latlong
+df[nrow(df) + 1,] <-Puducherry_latlong
+df[nrow(df) + 1,] <-Pune_latlong
+df[nrow(df) + 1,] <-Shillong_latlong
+df[nrow(df) + 1,] <-Solapur_latlong
+df[nrow(df) + 1,] <-Srinagar_latlong
+df[nrow(df) + 1,] <-Thiruvananthapuram_latlong
+df[nrow(df) + 1,] <-Varanasi_latlong
+df[nrow(df) + 1,] <-Vijaywada_latlong
+df[nrow(df) + 1,] <- Visakhapatnam_latlong
+```
+
+#Export CSV
+```{r}
+write.csv(df,"latlong.csv", row.names = FALSE)
+```
+
+#Cluster Cities
+```{r}
+library(tidyverse) 
+library(cluster)
+library(factoextra)
+set.seed(1234)
+
+#Set Index to City Name
+rownames(df) <- df$City
+df <- subset(df, select=-City)
+
+#Distance Matrix
+distance <- get_dist(df)
+fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+```
+#Determine Optimal Number of Clusters
+```{r}
+set.seed(123)
+
+# function to compute total within-cluster sum of square 
+wss <- function(k) {
+  kmeans(df, k, nstart = 10 )$tot.withinss
+}
+
+# Compute and plot wss for k = 1 to k = 15
+k.values <- 1:15
+
+# extract wss for 2-15 clusters
+wss_values <- map_dbl(k.values, wss)
+
+plot(k.values, wss_values,
+       type="b", pch = 19, frame = FALSE, 
+       xlab="Number of clusters K",
+       ylab="Total within-clusters sum of squares")
+```
+#Choose k=4 based on plot above
+
+#Run Kmeans Algorithm for k=4
+```{r}
+cluster <- kmeans(df, centers = 4, nstart = 25)
+fviz_cluster(cluster, data = df)
+cluster
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
